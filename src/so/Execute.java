@@ -49,11 +49,25 @@ public class Execute {
                         processosUnicos.add(processo);
                     }
                 }
-
                 // Relata os processos únicos
+                System.out.println("Processos existentes na memória:");
                 for (String processoUnico : processosUnicos) {
                     System.out.println("Processo " + processoUnico);
                 }
+                System.out.println("Digite o nome do processo que deseja deletar:");
+                String processoDeletar = scanner.nextLine();
+                for (int i = 0; i < processList.length; i++) {
+                    try {
+                        if (processList[i] != null && processList[i].equals(processoDeletar)) {
+                            System.out.println(processoDeletar);
+                            MemoryManager.deleteProcess(processoDeletar);
+                            //System.out.println("Deletando processo " + processList[i] + " na posição " + i);
+                        }
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+
             } else if (option == 3) {
                 // Lógica para verificar processos existentes na memória
                 String[] processList = MemoryManager.getPhysicMemory();
