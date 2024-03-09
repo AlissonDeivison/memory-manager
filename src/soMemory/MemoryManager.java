@@ -69,11 +69,25 @@ public class MemoryManager {
         throw new UnsupportedOperationException("Unimplemented method 'writeProcessUsingBestFit'");
     }
 
-    public void deleteProcess(Process p) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteProcess'");
-    }
+    public static void deleteProcess(String p) {
+        for (int i = 0; i < physicMemory.length; i++) {
+            if (physicMemory[i] != null) {
+                try {
+                    String processId = physicMemory[i];
+                    if (physicMemory[i].equals(processId)) {
+                        physicMemory[i] = null;
+                        System.out.println("Deletando processo " + physicMemory[i] + " na posição " + i);
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
 
+                physicMemory[i] = null;
+                break; // Interrompe o loop após excluir o processo
+            }
+        }
+    }
+    
     public void readProcess(Process p) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'readProcess'");
