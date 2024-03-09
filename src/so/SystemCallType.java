@@ -1,5 +1,5 @@
 package so;
 
 public enum SystemCallType {
-    DELETE, READ, WRITE
+    DELETE, READ, WRITE, CREATE
 }
