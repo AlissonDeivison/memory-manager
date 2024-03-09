@@ -13,7 +13,7 @@ public class Process {
 
     public Process(String id, int sizeInMemory, int timeToExecute, Priority priority) {
         Random rand = new Random();
-        this.id = UUID.randomUUID().toString();
+        this.id = UUID.randomUUID().toString().substring(0, 2);;
         List<Integer> givenList = Arrays.asList(1,2,4,5,8,10,20,50,100);
         this.sizeInMemory = givenList.get(rand.nextInt(givenList.size()));
         this.timeToExecute = timeToExecute;
@@ -51,4 +51,6 @@ public class Process {
     public void setPriority(Priority priority) {
         this.priority = priority;
     }
+
+    
 }
