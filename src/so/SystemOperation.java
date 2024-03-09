@@ -29,7 +29,8 @@ public class SystemOperation {
             Process process = cm.createProcess(p);
             return process;
         } else if (type.equals((SystemCallType.DELETE))) {
-            mm.deleteProcess(p);  
+            String processId = p.getId().toString();
+            mm.deleteProcess(processId);  
         }
         return null;
     }
