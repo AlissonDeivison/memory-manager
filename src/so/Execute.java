@@ -59,24 +59,20 @@ public class Execute {
                 for (int i = 0; i < processList.length; i++) {
                     try {
                         if (processList[i] != null && processList[i].equals(processoDeletar)) {
-                            System.out.println(processoDeletar);
                             MemoryManager.deleteProcess(processoDeletar);
-                            //System.out.println("Deletando processo " + processList[i] + " na posição " + i);
                         }
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
                 }
-
             } else if (option == 3) {
                 // Lógica para verificar processos existentes na memória
-                String[] processList = MemoryManager.getPhysicMemory();
+                String[] physicMemory = MemoryManager.getPhysicMemory();
                 try {
-                    for (int i = 0; i < processList.length; i++) {
-                        if (processList[i] != null) {
-                            System.out.println("Processo " + processList[i] + " na posição " + i);
+                        System.out.println("Status da memória:");
+                        for (String processo : physicMemory) {
+                            System.out.print(processo + "-");
                         }
-                    }
                 } catch (Exception e) {
                     // TODO: handle exception
                 }
