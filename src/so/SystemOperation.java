@@ -30,7 +30,7 @@ public class SystemOperation {
             return process;
         } else if (type.equals((SystemCallType.DELETE))) {
             String processId = p.getId().toString();
-            mm.deleteProcess(processId);  
+            MemoryManager.deleteProcess(processId);  
         }
         return null;
     }
