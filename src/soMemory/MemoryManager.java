@@ -20,11 +20,11 @@ public class MemoryManager {
             this.writeProcessUsingWorstFit(p);
         }
     }
-    
+
     public static String[] getPhysicMemory() {
         return physicMemory;
     }
-    
+
     private void writeProcessUsingFirstFit(Process p) {
         int start = 0;
         int actualSize = 0;
@@ -34,7 +34,6 @@ public class MemoryManager {
                 // Se já alocamos espaço suficiente para o processo, saímos do loop
                 break;
             }
-
             if (physicMemory[i] == null) {
                 // Se o espaço atual estiver vazio, aumentamos o tamanho atual
                 actualSize++;
@@ -44,7 +43,6 @@ public class MemoryManager {
                 start = i + 1; // Avançamos o início para o próximo espaço vazio
             }
         }
-
         // Verificamos se encontramos espaço suficiente para o processo
         if (actualSize >= p.getSizeInMemory()) {
             // Alocamos o processo na memória
@@ -70,36 +68,31 @@ public class MemoryManager {
     }
 
     public static void deleteProcess(String p) {
-        for (int i = 0; i < physicMemory.length; i++) {
-            if (physicMemory[i] != null) {
-                try {
-                    String processId = physicMemory[i];
-                    if (physicMemory[i].equals(processId)) {
-                        physicMemory[i] = null;
-                        System.out.println("Deletando processo " + physicMemory[i] + " na posição " + i);
-                    }
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
+        try {
+            for (int i = 0; i < physicMemory.length; i++) {
+                if (physicMemory[i] != null && physicMemory[i].equals(p)) {
+                    physicMemory[i] = null;
+                    break; // Interrompe o loop após excluir o processo
                 }
-
-                physicMemory[i] = null;
-                break; // Interrompe o loop após excluir o processo
             }
+        } catch (Exception e) {
+            System.out.println("Ocorreu um erro ao excluir o processo: " + e.getMessage());
         }
     }
-    
+
     public void readProcess(Process p) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'readProcess'");
     }
 
-    private void printStatusMemory(Process p) {
+    private static void printStatusMemory(Process p) {
+        System.out.println(
+                "Processo: " + p.getId() + " | Tamanho: " + p.getSizeInMemory() + " | " + p.getPriority() + "\n");
         System.out.println("Status da memória:");
-        System.out.println(p.getId() + " | Tamanho: " + p.getSizeInMemory() + " || " + p.getPriority());
         for (int i = 0; i < physicMemory.length; i++) {
-            System.out.print(physicMemory[i] + "||");
+            System.out.print(physicMemory[i] + "-");
         }
+        System.out.println("\n");
     }
 
-    
 }
