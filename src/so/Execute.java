@@ -31,10 +31,12 @@ public class Execute {
             }
 
             if (option == 1) {
+                System.out.println("Digite o tamanho do processo: ");
+                int tamanhoDoProcesso = Integer.parseInt(scanner.nextLine());
                 try {
-                    Process p = SystemOperation.systemCall(SystemCallType.CREATE, null);
+                    Process p = SystemOperation.systemCall(SystemCallType.CREATE, null, tamanhoDoProcesso);
                     try {
-                        SystemOperation.systemCall(SystemCallType.WRITE, p);
+                        SystemOperation.systemCall(SystemCallType.WRITE, p, tamanhoDoProcesso);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }

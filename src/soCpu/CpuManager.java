@@ -10,10 +10,11 @@ import java.util.UUID;
 
 public class CpuManager {
 
-    public Process createProcess(Process p) {
+    public Process createProcess(Process p, int processLenght) {
         Random rand = new Random();
-        List<Integer> givenList = Arrays.asList(1,2,4,5,8,10,20,50,100);
-        int sizeInMemory = givenList.get(rand.nextInt(givenList.size()));
+        //List<Integer> givenList = Arrays.asList(1,2,4,5,8,10,20,50,100);
+        //int sizeInMemory = givenList.get(rand.nextInt(givenList.size()));
+        int sizeInMemory = processLenght;
         int timeToExecute = rand.nextInt(100); // Tempo de execução aleatório entre 0 e 99
         Priority priority = Priority.values()[rand.nextInt(Priority.values().length)]; // Prioridade aleatória
         String id = UUID.randomUUID().toString(); // ID aleatório
@@ -23,12 +24,10 @@ public class CpuManager {
     public static void main(String[] args) {
         // Criar uma instância de CpuManager
         CpuManager cpuManager = new CpuManager();
-        
         // Inicializar o processo aleatório
         Process processoAleatorio = null;
-        
         // Criar um processo aleatório
-        processoAleatorio = cpuManager.createProcess(processoAleatorio);
+        processoAleatorio = cpuManager.createProcess(processoAleatorio,0);
     }
 
     public Process imprimirProcesso(Process processo) {

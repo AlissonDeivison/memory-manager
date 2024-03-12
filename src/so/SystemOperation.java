@@ -19,14 +19,14 @@ public class SystemOperation {
         }
     }
 
-    public static Process systemCall(SystemCallType type, Process p) {
+    public static Process systemCall(SystemCallType type, Process p, int n) {
         if (type.equals((SystemCallType.WRITE))) {
              mm.writeProcess(p);
         } else if (type.equals((SystemCallType.READ))) {
             mm.readProcess(p);
         } else if (type.equals((SystemCallType.CREATE))) {
             startsMmAndCpu();
-            Process process = cm.createProcess(p);
+            Process process = cm.createProcess(p, n);
             return process;
         } else if (type.equals((SystemCallType.DELETE))) {
             String processId = p.getId().toString();
