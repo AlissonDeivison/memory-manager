@@ -3,8 +3,6 @@ package soCpu;
 import so.Process;
 import so.Priority;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -12,8 +10,6 @@ public class CpuManager {
 
     public Process createProcess(Process p, int processLenght) {
         Random rand = new Random();
-        //List<Integer> givenList = Arrays.asList(1,2,4,5,8,10,20,50,100);
-        //int sizeInMemory = givenList.get(rand.nextInt(givenList.size()));
         int sizeInMemory = processLenght;
         int timeToExecute = rand.nextInt(100); // Tempo de execução aleatório entre 0 e 99
         Priority priority = Priority.values()[rand.nextInt(Priority.values().length)]; // Prioridade aleatória

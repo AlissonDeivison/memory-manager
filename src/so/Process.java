@@ -1,8 +1,5 @@
 package so;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 public class Process {
@@ -12,9 +9,7 @@ public class Process {
     private Priority priority;
 
     public Process(String id, int sizeInMemory, int timeToExecute, Priority priority) {
-        Random rand = new Random();
         this.id = UUID.randomUUID().toString().substring(0, 4);;
-        List<Integer> givenList = Arrays.asList(1,2,4,5,8,10,20,50,100);
         this.sizeInMemory = sizeInMemory;
         this.timeToExecute = timeToExecute;
         this.priority = priority;

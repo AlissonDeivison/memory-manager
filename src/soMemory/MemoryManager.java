@@ -1,14 +1,23 @@
 package soMemory;
 
+import java.util.Hashtable;
+import java.util.List;
+
 import so.Process;
 
 public class MemoryManager {
+    private int pageSize;
     private static String[] physicMemory;
     private Strategy strategy;
+    private Hashtable<String, List<FrameMemory>> logicalMemory;
 
-    public MemoryManager(Strategy strategy) {
+    public MemoryManager(Strategy strategy, int pageSize) {
         this.strategy = strategy;
         MemoryManager.physicMemory = new String[128];
+        this.logicalMemory = new Hashtable<String, List<FrameMemory>>();
+    }
+    public MemoryManager(Strategy strategy) {
+        this(strategy, 2);
     }
 
     public void writeProcess(Process p) {
@@ -18,11 +27,17 @@ public class MemoryManager {
             this.writeProcessUsingFirstFit(p);
         } else if (this.strategy.equals(Strategy.WORST_FIT)) {
             this.writeProcessUsingWorstFit(p);
+        } else if (this.strategy.equals(Strategy.PAGING)) {
+            this.writeProcessUsingPaging(p);
         }
     }
 
     public static String[] getPhysicMemory() {
         return physicMemory;
+    }
+
+    private void writeProcessUsingPaging(Process p) {
+        
     }
 
     private void writeProcessUsingFirstFit(Process p) {
