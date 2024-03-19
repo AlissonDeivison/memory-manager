@@ -76,7 +76,7 @@ public class Execute {
                             System.out.print(processo + "-");
                         }
                 } catch (Exception e) {
-                    // TODO: handle exception
+                    System.out.println("Erro ao verificar processos existentes na memória: " + e.getMessage());
                 }
             } else if (option == 4) {
                 break;

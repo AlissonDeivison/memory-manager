@@ -112,56 +112,6 @@ public class MemoryManager {
         }
      }
 
-    /* 
-    private void writeProcessUsingWorstFit(Process p) {
-        int maxSize = -1;
-        int start = -1;
-    
-        // Procura por um bloco disponível no início da memória
-        for (int i = 0; i < physicMemory.length && physicMemory[i] == null; i++) {
-            int j = i;
-            while (j < physicMemory.length && physicMemory[j] == null) {
-                j++;
-            }
-            int blockSize = j - i;
-            if (blockSize >= p.getSizeInMemory() && blockSize > maxSize) {
-                maxSize = blockSize;
-                start = i;
-            }
-            i = j;
-        }
-    
-        // Se não encontrou no início, busca pelo maior bloco em qualquer posição
-        if (start == -1) {
-            for (int i = 0; i < physicMemory.length; ) {
-                if (physicMemory[i] == null) {
-                    int j = i;
-                    while (j < physicMemory.length && physicMemory[j] == null) {
-                        j++;
-                    }
-                    int blockSize = j - i;
-                    if (blockSize >= p.getSizeInMemory() && blockSize > maxSize) {
-                        maxSize = blockSize;
-                        start = i;
-                    }
-                    i = j;
-                } else {
-                    i++;
-                }
-            }
-        }
-    
-        if (start != -1) {
-            int end = start + p.getSizeInMemory() - 1;
-            for (int j = start; j <= end; j++) {
-                physicMemory[j] = p.getId();
-            }
-            printStatusMemory(p);
-        } else {
-            System.out.println("Não há espaço suficiente na memória para alocar o processo: " + p.getId());
-        }
-    }
-    */
     private void writeProcessUsingBestFit(Process p) {
         int minSize = Integer.MAX_VALUE;
         int start = -1;

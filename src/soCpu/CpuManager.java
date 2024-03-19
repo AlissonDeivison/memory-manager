@@ -25,13 +25,4 @@ public class CpuManager {
         // Criar um processo aleatório
         processoAleatorio = cpuManager.createProcess(processoAleatorio,0);
     }
-
-    public Process imprimirProcesso(Process processo) {
-        System.out.println("Processo criado:");
-        System.out.println("ID: " + processo.getId());
-        System.out.println("Tamanho na memória: " + processo.getSizeInMemory());
-        System.out.println("Tempo para executar: " + processo.getTimeToExecute());
-        System.out.println("Prioridade: " + processo.getPriority());
-        return processo;
-    }
 }
