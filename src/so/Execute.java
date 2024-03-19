@@ -34,6 +34,7 @@ public class Execute {
                 System.out.println("Digite o tamanho do processo: ");
                 int tamanhoDoProcesso = Integer.parseInt(scanner.nextLine());
                 try {
+                    // Instância o Processo e chama os Sistema Operacional
                     Process p = SystemOperation.systemCall(SystemCallType.CREATE, null, tamanhoDoProcesso);
                     try {
                         SystemOperation.systemCall(SystemCallType.WRITE, p, tamanhoDoProcesso);

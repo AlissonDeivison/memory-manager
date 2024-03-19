@@ -15,14 +15,6 @@ public class CpuManager {
         Priority priority = Priority.values()[rand.nextInt(Priority.values().length)]; // Prioridade aleatória
         String id = UUID.randomUUID().toString(); // ID aleatório
         return new Process(id, sizeInMemory, timeToExecute, priority);
-    }
 
-    public static void main(String[] args) {
-        // Criar uma instância de CpuManager
-        CpuManager cpuManager = new CpuManager();
-        // Inicializar o processo aleatório
-        Process processoAleatorio = null;
-        // Criar um processo aleatório
-        processoAleatorio = cpuManager.createProcess(processoAleatorio,0);
     }
 }
