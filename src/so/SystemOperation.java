@@ -12,7 +12,7 @@ public class SystemOperation {
 
     private static void startsMmAndCpu() {
         if (mm == null) {
-            mm = new MemoryManager(Strategy.WORST_FIT);
+            mm = new MemoryManager(Strategy.PAGING);
         }
         if (cm == null) {
             cm = new CpuManager();

@@ -1,5 +1,6 @@
 package soMemory;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class MemoryManager {
         MemoryManager.physicMemory = new String[128];
         this.logicalMemory = new Hashtable<String, List<FrameMemory>>();
     }
+
     public MemoryManager(Strategy strategy) {
         this(strategy, 2);
     }
@@ -36,8 +38,38 @@ public class MemoryManager {
         return physicMemory;
     }
 
+    private List<FrameMemory> getFrames(Process p) {
+        int increment = 0;
+        List<FrameMemory> adresses = new ArrayList<>();
+        for (int frame = 0; frame < physicMemory.length; frame += this.pageSize) {
+            if (physicMemory[frame] == null) {
+                increment += this.pageSize;
+                adresses.add(new FrameMemory(frame, this.pageSize));
+                if (increment >= p.getSizeInMemory()) {
+                    return adresses;
+                }
+            }
+        }
+        return null;
+    }
+
     private void writeProcessUsingPaging(Process p) {
-        
+        List<FrameMemory> adresses = this.getFrames(p);
+        if (adresses == null) {
+            System.out.println("Não há espaço suficiente na memória para alocar o processo: " + p.getId());
+            return;
+        } else {
+            for (int i = 0; i < adresses.size(); i++) {
+                FrameMemory frame = adresses.get(i);
+                int start = frame.getPageNumber();
+                int end = start + frame.getDisplacement(); //- 1;
+                for(int j = start; j < end; j++){
+                    this.physicMemory[j] = p.getId();
+                }
+            }
+            this.logicalMemory.put(p.getId(), adresses);
+        }
+
     }
 
     private void writeProcessUsingFirstFit(Process p) {
@@ -76,47 +108,47 @@ public class MemoryManager {
         int maxSize = -1;
         int start = -1;
         int i = 0;
-  
-        while(true) {
-           int j;
-           while(i < physicMemory.length) {
-              if (physicMemory[i] == null) {
-                 for(j = i; j < physicMemory.length && physicMemory[j] == null; ++j) {
-                 }
-  
-                 int blockSize = j - i;
-                 if (blockSize >= p.getSizeInMemory() && blockSize > maxSize) {
-                    maxSize = blockSize;
-                    start = i;
-                 }
-  
-                 i = j;
-              } else {
-                 ++i;
-              }
-           }
-  
-           if (start != -1) {
-              i = start + p.getSizeInMemory() - 1;
-  
-              for(j = start; j <= i; ++j) {
-                 physicMemory[j] = p.getId();
-              }
-  
-              printStatusMemory(p);
-           } else {
-              System.out.println("Sem espaço suficiente para alocar o processo: " + p.getId());
-           }
-  
-           return;
+
+        while (true) {
+            int j;
+            while (i < physicMemory.length) {
+                if (physicMemory[i] == null) {
+                    for (j = i; j < physicMemory.length && physicMemory[j] == null; ++j) {
+                    }
+
+                    int blockSize = j - i;
+                    if (blockSize >= p.getSizeInMemory() && blockSize > maxSize) {
+                        maxSize = blockSize;
+                        start = i;
+                    }
+
+                    i = j;
+                } else {
+                    ++i;
+                }
+            }
+
+            if (start != -1) {
+                i = start + p.getSizeInMemory() - 1;
+
+                for (j = start; j <= i; ++j) {
+                    physicMemory[j] = p.getId();
+                }
+
+                printStatusMemory(p);
+            } else {
+                System.out.println("Sem espaço suficiente para alocar o processo: " + p.getId());
+            }
+
+            return;
         }
-     }
+    }
 
     private void writeProcessUsingBestFit(Process p) {
         int minSize = Integer.MAX_VALUE;
         int start = -1;
 
-        for (int i = 0; i < physicMemory.length; ) {
+        for (int i = 0; i < physicMemory.length;) {
             if (physicMemory[i] == null) {
                 int j = i;
                 while (j < physicMemory.length && physicMemory[j] == null) {
@@ -157,9 +189,18 @@ public class MemoryManager {
         }
     }
 
-    public void readProcess(Process p) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'readProcess'");
+    public List<String> readProcess(String prossesId) {
+        List <String> processParts = new ArrayList<String>();
+        List<FrameMemory> adresses = this.logicalMemory.get(prossesId);
+        for (int i = 0; i < adresses.size(); i++) {
+            FrameMemory frame = adresses.get(i);
+            int start = frame.getPageNumber();
+            int end = start + frame.getDisplacement(); //- 1;
+            for(int j = start; j < end; j++){
+                processParts.add(this.physicMemory[j]);
+            }
+        }
+        return processParts;
     }
 
     private static void printStatusMemory(Process p) {
