@@ -2,7 +2,6 @@ package so;
 
 import soCpu.CpuManager;
 import soMemory.MemoryManager;
-import soMemory.Strategy;
 import soSchedule.Schedule;
 
 public class SystemOperation {
@@ -12,7 +11,7 @@ public class SystemOperation {
 
     private static void startsMmAndCpu() {
         if (mm == null) {
-            mm = new MemoryManager(Strategy.PAGING);
+            mm = new MemoryManager(4, 256);
         }
         if (cm == null) {
             cm = new CpuManager();

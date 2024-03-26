@@ -45,7 +45,7 @@ public class Execute {
                     System.out.println("Erro ao criar processo: " + e.getMessage());
                 }
             } else if (option == 2) {
-                String[] processList = MemoryManager.getPhysicMemory();
+                String[] processList = MemoryManager.getPhysicalMemory();
                 Set<String> processosUnicos = new HashSet<>();
                 for (String processo : processList) {
                     if (processo != null) {
@@ -70,7 +70,7 @@ public class Execute {
                 }
             } else if (option == 3) {
                 // Lógica para verificar processos existentes na memória
-                String[] physicMemory = MemoryManager.getPhysicMemory();
+                String[] physicMemory = MemoryManager.getPhysicalMemory();
                 try {
                         System.out.println("Status da memória:");
                         for (String processo : physicMemory) {
