@@ -35,9 +35,11 @@ public class Execute {
                 int tamanhoDoProcesso = Integer.parseInt(scanner.nextLine());
                 try {
                     // Instância o Processo e chama os Sistema Operacional
-                    Process p = SystemOperation.systemCall(SystemCallType.CREATE, null, tamanhoDoProcesso);
+                    Process process = new Process(tamanhoDoProcesso);
+                    SystemOperation.systemCall(SystemCallType.CREATE, process, tamanhoDoProcesso);
                     try {
-                        SystemOperation.systemCall(SystemCallType.WRITE, p, tamanhoDoProcesso);
+                        SystemOperation.systemCall(SystemCallType.WRITE, process, tamanhoDoProcesso);
+                        System.out.println("Processo criado e escrito na memória com sucesso!" + process.getSubProcess());
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -72,7 +74,7 @@ public class Execute {
                 */
             } else if (option == 3) {
                 // Lógica para verificar processos existentes na memória
-                
+                //MemoryManager.printStatusMemory();
                 
             } else if (option == 4) {
                 break;

@@ -10,7 +10,7 @@ public class Process {
 
     private static int countIndex = 0;
 
-    public Process(int sizeInMemory, int timeToExecute, Priority priority) {
+    public Process(int sizeInMemory) {
         countIndex++;
         this.id = "P" + countIndex;
         this.sizeInMemory = sizeInMemory;
@@ -31,12 +31,13 @@ public class Process {
     public void setSizeInMemory(int sizeInMemory) {
         this.sizeInMemory = sizeInMemory;
     }
-    //Função para fatiar o processo
-    public List<String> getSubProcess(){
-        if(this.subProcess == null || this.subProcess.isEmpty()){
+
+    // Função para fatiar o processo
+    public List<String> getSubProcess() {
+        if (this.subProcess == null || this.subProcess.isEmpty()) {
             this.subProcess = new LinkedList<>();
-            for (int i =0; i < this.getSizeInMemory(); i++){
-                this.subProcess.add(id + i);
+            for (int i = 0; i < this.getSizeInMemory(); i++) {
+                this.subProcess.add(id + "[" + i + "]");
             }
         }
         return this.subProcess;

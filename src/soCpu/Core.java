@@ -24,8 +24,6 @@ public class Core implements Runnable {
         
     }
 
-    
-
     private void finishExecution(){
         this.subProcess = null;
         this.count = 0;

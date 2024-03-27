@@ -10,26 +10,26 @@ public class SystemOperation {
     private static Schedule sc;
 
     private static void startsMmAndCpu() {
+
         if (mm == null) {
             mm = new MemoryManager(4, 256);
         }
         if (cm == null) {
-            cm = new CpuManager();
+            cm = new CpuManager(4);
         }
     }
 
     public static Process systemCall(SystemCallType type, Process p, int n) {
         if (type.equals((SystemCallType.WRITE))) {
-             mm.writeProcess(p);
+            Process process = mm.write(p);
+            return process;
         } else if (type.equals((SystemCallType.READ))) {
-            mm.readProcess(p);
+            // mm.readProcess(p);
         } else if (type.equals((SystemCallType.CREATE))) {
             startsMmAndCpu();
-            Process process = cm.createProcess(p, n);
-            return process;
         } else if (type.equals((SystemCallType.DELETE))) {
             String processId = p.getId().toString();
-            MemoryManager.deleteProcess(processId);  
+            // MemoryManager.deleteProcess(processId);
         }
         return null;
     }
