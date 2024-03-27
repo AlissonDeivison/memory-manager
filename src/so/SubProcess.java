@@ -2,15 +2,15 @@ package so;
 
 public class SubProcess {
     private String id;
+    private String processId;
     private int instructions;
-    private int timeToExecute;
     public static int count;
 
-    public SubProcess(String processId, int instructions, int timeToExecute) {
-        count++;
+    public SubProcess(String processId, int instructions) {
+        this.processId = processId;
         this.id = processId + count;
         this.instructions = instructions;
-        this.timeToExecute = timeToExecute;
+        count++;
     }
 
     public String getId() {
@@ -29,11 +29,8 @@ public class SubProcess {
         this.instructions = instructions;
     }
 
-    public int getTimeToExecute() {
-        return timeToExecute;
+    public String getProcessId() {
+        return processId;
     }
 
-    public void setTimeToExecute(int timeToExecute) {
-        this.timeToExecute = timeToExecute;
-    }
 }

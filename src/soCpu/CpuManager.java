@@ -1,20 +1,39 @@
 package soCpu;
 
-import so.Process;
-import so.Priority;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import java.util.Random;
-import java.util.UUID;
+import so.SubProcess;
 
 public class CpuManager {
+    private Core[] cors;
+    public static int NUM_OF_INSTRUCTIONS_PER_CLOCK = 7;
+    public static int CLOCK_TIME = 500;
 
-    public Process createProcess(Process p, int processLenght) {
-        Random rand = new Random();
-        int sizeInMemory = processLenght;
-        int timeToExecute = rand.nextInt(100); // Tempo de execução aleatório entre 0 e 99
-        Priority priority = Priority.values()[rand.nextInt(Priority.values().length)]; // Prioridade aleatória
-        String id = UUID.randomUUID().toString(); // ID aleatório
-        return new Process(id, sizeInMemory, timeToExecute, priority);
+    
+    public CpuManager (int numOfCors){
+        this.cors = new Core[numOfCors];
+        for (int i =0 ; i < this.cors.length; i++){
+            this.cors[i] = new Core(i, NUM_OF_INSTRUCTIONS_PER_CLOCK);
+        }
+    }
+    
+    public void registerProcess(int coreId, SubProcess p){
+        this.cors[coreId].setSubProcess(p);
+    }
 
+    public void clock(){
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                executeProcesses();
+            }
+        }, 500);
+    }
+
+    private void executeProcesses() {
+        for(int i = 0; i < this.cors.length; i++){
+            this.cors[i].run();
+        }
     }
 }

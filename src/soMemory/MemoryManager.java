@@ -2,6 +2,7 @@ package soMemory;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.LinkedList;
 import java.util.List;
 
 import so.Process;
@@ -12,6 +13,9 @@ public class MemoryManager {
     private Hashtable<String, FrameMemory> logicalMemory;
     private int pageSize;
 
+
+    public static int NUMBER_OF_PROCESS_INSTRUCTIONS = 7;
+
     public MemoryManager(int pageSize, int memorySize) {
         this.pageSize = pageSize;
         int pages = memorySize / pageSize;
@@ -20,66 +24,43 @@ public class MemoryManager {
     }
 
     public void writeProcess(Process p) {
-        this.writeProcessUsingPaging(p);
+        this.write(p);
     }
 
     private List<FrameMemory> getFrames(Process p) {
-        int increment = 0;
-        List<FrameMemory> adresses = new ArrayList<>();
-        for (int frame = 0; frame < physicalMemory.length; frame += this.pageSize) {
-            if (physicalMemory[frame] == null) {
-                increment += this.pageSize;
-                adresses.add(new FrameMemory(frame, this.pageSize));
-                if (increment >= p.getSizeInMemory()) {
-                    return adresses;
+        int totalOfPages = p.getSizeInMemory() / this.pageSize;
+        List<FrameMemory> frames = new LinkedList<>();
+        for (int frame = 0; frame < physicalMemory.length; frame++) {
+            if (physicalMemory[frame][0] == null) {
+                frames.add(new FrameMemory(frame, 0));
+                if(frames.size() >= totalOfPages){
+                    return frames;
                 }
             }
         }
         return null;
     }
 
-    private void writeProcessUsingPaging(Process p) {
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        List<FrameMemory> adresses = this.getFrames(p);
-        if (adresses == null) {
-            System.out.println("Não há espaço suficiente na memória para alocar o processo: " + p.getId());
-            return;
-        } else {
-            for (int i = 0; i < adresses.size(); i++) {
-                FrameMemory frame = adresses.get(i);
-                int start = frame.getPageNumber();
-                int end = start + frame.getDisplacement(); //- 1;
-                for(int j = start; j < end; j++){
-                    this.physicalMemory[j] = p.getId();
-                }
+    private void write(Process p) {
+        List<FrameMemory> frames = this.getFrames(p);
+        int increment = 0; //Gambiarra
+        for (int i = 0; i < frames.size(); i++) {
+            FrameMemory frame = frames.get(i);
+            for(int offset = 0; offset < this.pageSize; offset++){
+                increment++;
+                this.physicalMemory[frame.getPageNumber()][offset] = 
+                    new SubProcess(p.getId(), NUMBER_OF_PROCESS_INSTRUCTIONS);
+                    if(increment >= p.getSubProcess().size()){
+                        break;
+                    }
             }
-            this.logicalMemory.put(p.getId(), adresses);
         }
-
     }
 
     public static void deleteProcess(String p) {
-        try {
-            for (int i = 0; i < physicalMemory.length; i++) {
-                if (physicalMemory[i] != null && physicalMemory[i].equals(p)) {
-                    physicalMemory[i] = null;
-                    break; // Interrompe o loop após excluir o processo
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Ocorreu um erro ao excluir o processo: " + e.getMessage());
-        }
+        
     }
-
+    
     public List<String> readProcess(Process p) {
         List <String> processParts = new ArrayList<String>();
         List<FrameMemory> adresses = this.logicalMemory.get(p.getId());
@@ -94,14 +75,24 @@ public class MemoryManager {
         return processParts;
     }
 
-    private static void printStatusMemory(Process p) {
-        System.out.println(
-                "Processo: " + p.getId() + " | Tamanho: " + p.getSizeInMemory() + " | " + p.getPriority() + "\n");
-        System.out.println("Status da memória:");
-        for (int i = 0; i < physicalMemory.length; i++) {
-            System.out.print(physicalMemory[i] + "-");
+    public void printStatusMemory() {
+        for(int i = 0; i < this.physicalMemory.length; i++){
+            for (int j = 0 ; j < this.pageSize; j++){
+                if(j == (this.pageSize - 1)){
+                    if(this.physicalMemory[i][j] != null){
+                        System.out.println(this.physicalMemory[i][j].getId());
+                    } else {
+                        System.out.println(this.physicalMemory[i][j]);
+                    }
+                } else {
+                    if(this.physicalMemory[i][j] != null){
+                        System.out.print(this.physicalMemory[i][j].getId() + "|");
+                    } else {
+                        System.out.print(this.physicalMemory[i][j] + "|");
+                    }
+                }
+            }
         }
-        System.out.println("\n");
     }
 
 }

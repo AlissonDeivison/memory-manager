@@ -1,8 +1,12 @@
 package so;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Process {
     private String id;
     private int sizeInMemory;
+    private List<String> subProcess;
 
     private static int countIndex = 0;
 
@@ -26,6 +30,16 @@ public class Process {
 
     public void setSizeInMemory(int sizeInMemory) {
         this.sizeInMemory = sizeInMemory;
+    }
+    //Função para fatiar o processo
+    public List<String> getSubProcess(){
+        if(this.subProcess == null || this.subProcess.isEmpty()){
+            this.subProcess = new LinkedList<>();
+            for (int i =0; i < this.getSizeInMemory(); i++){
+                this.subProcess.add(id + i);
+            }
+        }
+        return this.subProcess;
     }
 
 }
