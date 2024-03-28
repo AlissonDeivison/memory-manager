@@ -144,6 +144,29 @@ public class MemoryManager {
         }
         System.out.println("Processos iniciados com " + processId + " removidos da memória.");
     }
-    
+
+    public String printStatusMemoryAsString() {
+        StringBuilder status = new StringBuilder();
+
+        for (int i = 0; i < physicalMemory.length; i++) {
+            for (int j = 0; j < pageSize; j++) {
+                if (physicalMemory[i][j] != null) {
+                    if (j == (pageSize - 1)) {
+                        status.append(physicalMemory[i][j].getId()).append("\n");
+                    } else {
+                        status.append(physicalMemory[i][j].getId()).append(" | ");
+                    }
+                } else {
+                    if (j == (pageSize - 1)) {
+                        status.append("null\n");
+                    } else {
+                        status.append("null | ");
+                    }
+                }
+            }
+        }
+
+        return status.toString();
+    }
 
 }

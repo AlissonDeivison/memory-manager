@@ -1,11 +1,6 @@
 package so;
 
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
-
-import soMemory.MemoryManager;
-
 public class Execute {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -58,6 +53,7 @@ public class Execute {
                 }
             } else if (option == 3) {
                 System.out.println(SystemOperation.getUniqueProcesses());
+                System.out.println(SystemOperation.statusMemory());
 
             } else if (option == 4) {
                 break;

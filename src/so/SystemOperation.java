@@ -29,6 +29,11 @@ public class SystemOperation {
         mm.removeProcessFromMemory(processId);
     }
 
+    public static String statusMemory () {
+        return mm.printStatusMemoryAsString();
+    }
+
+
 
     public static Process systemCall(SystemCallType type, Process p, int n) {
         if (type.equals((SystemCallType.WRITE))) {
