@@ -39,7 +39,7 @@ public class Execute {
                     SystemOperation.systemCall(SystemCallType.CREATE, process, tamanhoDoProcesso);
                     try {
                         SystemOperation.systemCall(SystemCallType.WRITE, process, tamanhoDoProcesso);
-                        System.out.println("Processo criado e escrito na memória com sucesso!" + process.getSubProcess());
+                        // process.getSubProcess());
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -47,35 +47,18 @@ public class Execute {
                     System.out.println("Erro ao criar processo: " + e.getMessage());
                 }
             } else if (option == 2) {
-                /* 
-                String[] processList = MemoryManager.getPhysicalMemory();
-                Set<String> processosUnicos = new HashSet<>();
-                for (String processo : processList) {
-                    if (processo != null) {
-                        processosUnicos.add(processo);
-                    }
-                }
-                // Relata os processos únicos
-                System.out.println("Processos existentes na memória:");
-                for (String processoUnico : processosUnicos) {
-                    System.out.println("Processo " + processoUnico);
-                }
-                System.out.println("Digite o nome do processo que deseja deletar:");
+                System.out.println("Processos existentes na memória: " + SystemOperation.getUniqueProcesses());
+                System.out.println("Digite o ID do processo que deseja deletar: ");
                 String processoDeletar = scanner.nextLine();
-                for (int i = 0; i < processList.length; i++) {
-                    try {
-                        if (processList[i] != null && processList[i].equals(processoDeletar)) {
-                            MemoryManager.deleteProcess(processoDeletar);
-                        }
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    }
+                try {
+                    SystemOperation.removeProcessFromMemory(processoDeletar);
+                    System.out.println("Processo deletado com sucesso!");
+                } catch (Exception e) {
+                    System.out.println("Erro ao deletar processo: " + e.getMessage());
                 }
-                */
             } else if (option == 3) {
-                // Lógica para verificar processos existentes na memória
-                //MemoryManager.printStatusMemory();
-                
+                System.out.println(SystemOperation.getUniqueProcesses());
+
             } else if (option == 4) {
                 break;
             }
