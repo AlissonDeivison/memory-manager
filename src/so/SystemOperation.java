@@ -22,18 +22,20 @@ public class SystemOperation {
     }
 
     public static Set<String> getUniqueProcesses() {
-        return mm.getUniqueProcesses();
+        if (mm == null) {
+            return null;
+        } else {
+            return mm.getUniqueProcesses();
+        }
     }
 
     public static void removeProcessFromMemory(String processId) {
         mm.removeProcessFromMemory(processId);
     }
 
-    public static String statusMemory () {
+    public static String statusMemory() {
         return mm.printStatusMemoryAsString();
     }
-
-
 
     public static Process systemCall(SystemCallType type, Process p, int n) {
         if (type.equals((SystemCallType.WRITE))) {

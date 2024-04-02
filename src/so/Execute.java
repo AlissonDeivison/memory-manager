@@ -1,17 +1,17 @@
 package so;
 
 import java.util.Scanner;
+
 public class Execute {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int option = 0;
-
         while (true) {
-            System.out.println("\nBem vindo ao sistema operacional");
-            System.out.println("Escolha uma opção: ");
-            System.out.println("1 - Criar processo e escrever na memória");
-            System.out.println("2 - Deletar processo existente");
-            System.out.println("3 - Verificar processos existentes na memória");
+            System.out.println("\n===== Sistema Operacional XPTO - Menu Principal =====");
+            System.out.println("Escolha uma opção digitando o número correspondente:");
+            System.out.println("1 - Criar um novo processo e escrever na memória");
+            System.out.println("2 - Deletar um processo da memória");
+            System.out.println("3 - Visualizar todos os processos em execução");
             System.out.println("4 - Sair do sistema");
 
             try {
@@ -42,14 +42,19 @@ public class Execute {
                     System.out.println("Erro ao criar processo: " + e.getMessage());
                 }
             } else if (option == 2) {
-                System.out.println("Processos existentes na memória: " + SystemOperation.getUniqueProcesses());
-                System.out.println("Digite o ID do processo que deseja deletar: ");
-                String processoDeletar = scanner.nextLine();
-                try {
-                    SystemOperation.removeProcessFromMemory(processoDeletar);
-                    System.out.println("Processo deletado com sucesso!");
-                } catch (Exception e) {
-                    System.out.println("Erro ao deletar processo: " + e.getMessage());
+
+                if (SystemOperation.getUniqueProcesses() == null) {
+                    System.out.println("Não há processos na memória para deletar");
+                } else {
+                    System.out.println("Processos existentes na memória: " + SystemOperation.getUniqueProcesses());
+                    System.out.println("Digite o ID do processo que deseja deletar: ");
+                    String processoDeletar = scanner.nextLine();
+                    try {
+                        SystemOperation.removeProcessFromMemory(processoDeletar);
+                        System.out.println("Processo deletado com sucesso!");
+                    } catch (Exception e) {
+                        System.out.println("Erro ao deletar processo: " + e.getMessage());
+                    }
                 }
             } else if (option == 3) {
                 System.out.println(SystemOperation.getUniqueProcesses());

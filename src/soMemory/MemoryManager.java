@@ -142,7 +142,6 @@ public class MemoryManager {
                 }
             }
         }
-        System.out.println("Processos iniciados com " + processId + " removidos da memória.");
     }
 
     public String printStatusMemoryAsString() {

@@ -6,19 +6,19 @@ public class Core implements Runnable {
 
     private int id;
     private SubProcess subProcess;
-    private int numInstructions;
+    private int numOfInstructions;
 
     private int count;
 
-    public Core(int coreId,int numInstructions) {
+    public Core(int coreId, int numInstructions) {
         this.id = coreId;
-        this.numInstructions = numInstructions;
+        this.numOfInstructions = numInstructions;
     }
 
     @Override
     public void run() {
-        count += numInstructions;
-        if(count >= subProcess.getInstructions()){
+        this.count += numOfInstructions;
+        if(this.count >= this.subProcess.getInstructions()){
             this.finishExecution();
         }
         
@@ -30,8 +30,10 @@ public class Core implements Runnable {
     }
 
     public void setSubProcess(SubProcess p) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setSubProcess'");
+        this.subProcess = p;
     }
 
+    public SubProcess getSubProcess() {
+        return this.subProcess;
+    }
 }
