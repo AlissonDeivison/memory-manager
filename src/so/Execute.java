@@ -29,11 +29,9 @@ public class Execute {
                 System.out.println("Digite o tamanho do processo: ");
                 int tamanhoDoProcesso = Integer.parseInt(scanner.nextLine());
                 try {
-                    // Instância o Processo e chama os Sistema Operacional
-                    Process process = new Process(tamanhoDoProcesso);
-                    SystemOperation.systemCall(SystemCallType.CREATE, process, tamanhoDoProcesso);
+                    Process process =  SystemOperation.SystemCall(SystemCallType.CREATE, tamanhoDoProcesso);
                     try {
-                        SystemOperation.systemCall(SystemCallType.WRITE, process, tamanhoDoProcesso);
+                        SystemOperation.SystemCall(SystemCallType.WRITE, process);
                         // process.getSubProcess());
                     } catch (Exception e) {
                         System.out.println(e.getMessage());

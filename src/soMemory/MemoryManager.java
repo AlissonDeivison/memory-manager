@@ -30,7 +30,6 @@ public class MemoryManager {
         List<String> subProcesses = p.getSubProcess();
         int totalSubProcesses = subProcesses.size();
         int totalOfPages = (int) Math.ceil((double) totalSubProcesses / this.pageSize);
-
         List<FrameMemory> frames = new LinkedList<>();
         int consecutiveEmptyFrames = 0;
 
@@ -61,8 +60,10 @@ public class MemoryManager {
             for (FrameMemory frame : frames) {
                 for (int offset = 0; offset < this.pageSize; offset++) {
                     if (increment < p.getSubProcess().size()) {
-                        this.physicalMemory[frame.getPageNumber()][offset] = new SubProcess(p.getId(),
-                                NUMBER_OF_PROCESS_INSTRUCTIONS);
+                        SubProcess sp = new SubProcess(p.getId(), NUMBER_OF_PROCESS_INSTRUCTIONS);
+                        this.physicalMemory[frame.getPageNumber()][offset] = sp;
+                        frame.setOffset(offset);
+                        this.logicalMemory.put(sp.getId(), frame);
                         increment++;
                     } else {
                         break;
@@ -122,7 +123,6 @@ public class MemoryManager {
         return uniqueProcesses;
     }
 
-    // Verifica se o processo existe na memória
     public Process getProcess(String id) {
         for (int i = 0; i < physicalMemory.length; i++) {
             for (int j = 0; j < pageSize; j++) {
@@ -166,6 +166,18 @@ public class MemoryManager {
         }
 
         return status.toString();
+    }
+
+    public List<SubProcess> read (Process p) {
+        List<String> ids = p.getSubProcess();
+        List<SubProcess> sps = new LinkedList<>();
+        for (String id:ids) {
+            FrameMemory frame = this.logicalMemory.get(id);
+            if (frame != null) {
+                sps.add(this.physicalMemory[frame.getFrameNumber()][frame.getOffset()]);
+            }
+        }
+        return sps;
     }
 
 }

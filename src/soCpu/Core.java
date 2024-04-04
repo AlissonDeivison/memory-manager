@@ -36,4 +36,8 @@ public class Core implements Runnable {
     public SubProcess getSubProcess() {
         return this.subProcess;
     }
+
+    public int getId() {
+        return this.id;
+    }
 }

@@ -1,24 +1,40 @@
 package so;
 
+import java.util.List;
 import java.util.Set;
 
-import soCpu.CpuManager;
+
 import soMemory.MemoryManager;
-import soSchedule.Schedule;
+import soSchedule.FCFS;
+import soSchedule.Scheduler;
 
 public class SystemOperation {
     private static MemoryManager mm;
-    private static CpuManager cm;
-    private static Schedule sc;
+    private static Scheduler sc;
 
-    private static void startsMmAndCpu() {
+    public static Process SystemCall(SystemCallType type, int processSize) {
+        if (type.equals(SystemCallType.CREATE)) {
+            if (mm == null) {
+                mm = new MemoryManager(4, 256);
+            }
 
-        if (mm == null) {
-            mm = new MemoryManager(4, 256);
+            if(sc == null){
+                sc = new FCFS(); //Aqui é onde o modificamos a estratégia de escalonamento
+            }
         }
-        if (cm == null) {
-            cm = new CpuManager(4);
-        }
+        return new Process(processSize);
+    }
+
+    public static List<SubProcess> SystemCall(SystemCallType type, Process p) {
+        if (type.equals(SystemCallType.WRITE)) {
+            mm.write(p);
+        } else if (type.equals(SystemCallType.READ)) {
+            return mm.read(p);
+        } else if (type.equals(SystemCallType.DELETE)) {
+            String processId = p.getId().toString();
+            mm.deleteProcess(processId);
+        } 
+        return null;
     }
 
     public static Set<String> getUniqueProcesses() {
@@ -35,20 +51,5 @@ public class SystemOperation {
 
     public static String statusMemory() {
         return mm.printStatusMemoryAsString();
-    }
-
-    public static Process systemCall(SystemCallType type, Process p, int n) {
-        if (type.equals((SystemCallType.WRITE))) {
-            Process process = mm.write(p);
-            return process;
-        } else if (type.equals((SystemCallType.READ))) {
-            // mm.readProcess(p);
-        } else if (type.equals((SystemCallType.CREATE))) {
-            startsMmAndCpu();
-        } else if (type.equals((SystemCallType.DELETE))) {
-            String processId = p.getId().toString();
-            mm.deleteProcess(processId);
-        }
-        return null;
     }
 }
