@@ -17,7 +17,7 @@ public class CpuManager {
         for (int i =0 ; i < this.cores.length; i++){
             this.cores[i] = new Core(i, NUM_OF_INSTRUCTIONS_PER_CLOCK);
         }
-        //this.clock();
+        this.clock();
     }
     
     public void registerProcess(int coreId, SubProcess p){
