@@ -8,11 +8,11 @@ public class Execute {
         int option = 0;
         while (true) {
             System.out.println("\n===== Sistema Operacional XPTO - Menu Principal =====");
-            System.out.println("Escolha uma opção digitando o número correspondente:");
             System.out.println("1 - Criar um novo processo e escrever na memória");
             System.out.println("2 - Deletar um processo da memória");
             System.out.println("3 - Visualizar todos os processos em execução");
             System.out.println("4 - Sair do sistema");
+            System.out.print("Escolha uma opção digitando o número correspondente: ");
 
             try {
                 option = Integer.parseInt(scanner.nextLine());
@@ -26,18 +26,39 @@ public class Execute {
             }
 
             if (option == 1) {
-                System.out.println("Digite o tamanho do processo: ");
-                int tamanhoDoProcesso = Integer.parseInt(scanner.nextLine());
-                try {
-                    Process process =  SystemOperation.SystemCall(SystemCallType.CREATE, tamanhoDoProcesso);
+                while (true) {
+                    System.out.println("\n===== Sistema Operacional XPTO - Criação e Execução de processos =====");
+                    System.out.println("1 - Criar um novo processo e escrever na memória");
+                    System.out.println("2 - Executar processos existente na memória");
+                    System.out.println("3 - Voltar ao menu principal");
+                    System.out.print("Escolha uma opção digitando o número correspondente: ");
+
                     try {
-                        SystemOperation.SystemCall(SystemCallType.WRITE, process);
-                        // process.getSubProcess());
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
+                        option = Integer.parseInt(scanner.nextLine());
+                        if (option < 1 || option > 3) {
+                            System.out.println("Opção inválida, digite novamente:");
+                            continue;
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Opção inválida, digite novamente:");
+                        continue;
                     }
-                } catch (Exception e) {
-                    System.out.println("Erro ao criar processo: " + e.getMessage());
+                    if (option == 1) {
+                        System.out.print("Digite o tamanho do processo que deseja criar: ");
+                        int processSize = Integer.parseInt(scanner.nextLine());
+                        SOProcess process = SystemOperation.SystemCall(SystemCallType.CREATE, processSize);
+                        try {
+                            SystemOperation.SystemCall(SystemCallType.WRITE, process);
+                        } catch (Exception e) {
+                            System.out.println("Erro ao escrever na memória: " + e.getMessage());
+                        }
+                        
+                    } else if (option == 2) {
+                        // Executar os processos
+                        System.out.println("Executando processos existentes na memória...");
+                    } else if (option == 3) {
+                        break;
+                    }
                 }
             } else if (option == 2) {
 

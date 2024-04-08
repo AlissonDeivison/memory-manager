@@ -17,14 +17,15 @@ public class Core implements Runnable {
 
     @Override
     public void run() {
-        this.count += numOfInstructions;
-        if(this.count >= this.subProcess.getInstructions()){
-            this.finishExecution();
+        if (subProcess != null) {
+            this.count += numOfInstructions;
+            if (this.count >= this.subProcess.getInstructions()) {
+                this.finishExecution();
+            }
         }
-        
     }
 
-    private void finishExecution(){
+    private void finishExecution() {
         this.subProcess = null;
         this.count = 0;
     }

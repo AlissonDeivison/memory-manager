@@ -1,7 +1,7 @@
 package soSchedule;
 
 import soCpu.CpuManager;
-import so.Process;
+import so.SOProcess;
 
 public abstract class Scheduler {
 
@@ -19,7 +19,7 @@ public abstract class Scheduler {
         this.cpu = cpu;
     }
 
-    public abstract void execute(Process p);
-    public abstract void finish(Process p);
+    public abstract void execute(SOProcess p);
+    public abstract void finish(SOProcess p);
 
 }

@@ -1,21 +1,14 @@
 package soSchedule;
 
-import so.Process;
+import java.util.Comparator;
 
-public class RoundRobin extends Scheduler{
+import so.SOProcess;
 
-    @Override
-    public void execute(Process p) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'execute'");
+public class RoundRobin extends SchedulerQueue{
+
+    public RoundRobin(Comparator<SOProcess> comparator) {
+        super(comparator);
+        //TODO Auto-generated constructor stub
     }
-
-    @Override
-    public void finish(Process p) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'finish'");
-    }
-
-    
 
 }
