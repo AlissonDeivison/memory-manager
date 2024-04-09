@@ -54,8 +54,22 @@ public class Execute {
                         }
                         
                     } else if (option == 2) {
-                        // Executar os processos
-                        System.out.println("Executando processos existentes na memória...");
+                        // Buscar todos os processos existentes na memória e adicionar a uma lista
+                        if (SystemOperation.getUniqueProcesses() == null) {
+                            System.out.println("Não há processos na memória para executar");
+                        } else {
+                            //Executar um processo baseado no Id informado pelo usuario
+                            System.out.println("Processos existentes na memória: " + SystemOperation.getUniqueProcesses());
+                            System.out.println("Digite o ID do processo que deseja executar: ");
+                            String processoExecutar = scanner.nextLine();
+                            try {
+                                SystemOperation.executeProcesses(SystemOperation.getProcess(processoExecutar));
+                                System.out.println("Processo executado com sucesso!");
+                            } catch (Exception e) {
+                                System.out.println("Erro ao executar processo: " + e.getMessage());
+                            }
+                        }
+                        
                     } else if (option == 3) {
                         break;
                     }

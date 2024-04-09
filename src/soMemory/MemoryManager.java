@@ -118,7 +118,7 @@ public class MemoryManager {
     public SOProcess getProcess(String id) {
         for (int i = 0; i < physicalMemory.length; i++) {
             for (int j = 0; j < pageSize; j++) {
-                if (physicalMemory[i][j] != null && physicalMemory[i][j].getId().equals(id)) {
+                if (physicalMemory[i][j] != null && physicalMemory[i][j].getId().startsWith(id)) {
                     return new SOProcess(physicalMemory[i][j].getInstructions());
                 }
             }

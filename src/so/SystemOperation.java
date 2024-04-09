@@ -32,7 +32,6 @@ public class SystemOperation {
                 System.out.println("Processo criado com sucesso! ID: " + p.getId());
             }
             
-            //sc.execute(p);
         } else if (type.equals(SystemCallType.READ)) {
             return mm.read(p);
         } else if (type.equals(SystemCallType.DELETE)) {
@@ -41,6 +40,13 @@ public class SystemOperation {
         } 
         return null;
     }
+
+    //Função para executar os processos existents na memória
+    public static void executeProcesses(SOProcess p){
+        sc.execute(p);
+    }
+    
+
 
     public static Set<String> getUniqueProcesses() {
         if (mm == null) {
@@ -56,5 +62,9 @@ public class SystemOperation {
 
     public static String statusMemory() {
         return mm.printStatusMemoryAsString();
+    }
+
+    public static SOProcess getProcess(String processoExecutar) {
+        return mm.getProcess(processoExecutar);
     }
 }

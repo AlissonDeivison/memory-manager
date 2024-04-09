@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Execute",
+            "request": "launch",
+            "mainClass": "so.Execute",
+            "projectName": "memory-manager_c475bb9b"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
