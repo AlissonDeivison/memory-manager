@@ -1,6 +1,7 @@
 package so;
 
 import java.util.Scanner;
+import java.util.Set;
 
 public class Execute {
     public static void main(String[] args) {
@@ -58,15 +59,15 @@ public class Execute {
                         if (SystemOperation.getUniqueProcesses() == null) {
                             System.out.println("Não há processos na memória para executar");
                         } else {
-                            //Executar um processo baseado no Id informado pelo usuario
-                            System.out.println("Processos existentes na memória: " + SystemOperation.getUniqueProcesses());
-                            System.out.println("Digite o ID do processo que deseja executar: ");
-                            String processoExecutar = scanner.nextLine();
-                            try {
-                                SystemOperation.executeProcesses(SystemOperation.getProcess(processoExecutar));
-                                System.out.println("Processo executado com sucesso!");
-                            } catch (Exception e) {
-                                System.out.println("Erro ao executar processo: " + e.getMessage());
+                            Set<String> processes = SystemOperation.getUniqueProcesses();
+                            for (String processId : processes) {
+                                try {
+                                    SOProcess p = SystemOperation.getProcess(processId);
+                                    SystemOperation.executeProcesses(p);
+                                    System.out.println("Processo " + processId + " executado com sucesso!");
+                                } catch (Exception e) {
+                                    System.out.println("Erro ao executar processo: " + e.getMessage());
+                                }
                             }
                         }
                         

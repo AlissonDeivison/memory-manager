@@ -9,7 +9,7 @@ public class SubProcess {
 
     public SubProcess(String processId, int instructions) {
         this.processId = processId;
-        this.id = processId + "[" + count + "]";
+        this.id = processId + count;
         this.instructions = instructions;
         
         count++;

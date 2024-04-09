@@ -46,8 +46,6 @@ public class SystemOperation {
         sc.execute(p);
     }
     
-
-
     public static Set<String> getUniqueProcesses() {
         if (mm == null) {
             return null;
@@ -64,7 +62,8 @@ public class SystemOperation {
         return mm.printStatusMemoryAsString();
     }
 
-    public static SOProcess getProcess(String processoExecutar) {
-        return mm.getProcess(processoExecutar);
+    public static SOProcess getProcess(String p) {
+        return mm.getProcess(p);
     }
+
 }

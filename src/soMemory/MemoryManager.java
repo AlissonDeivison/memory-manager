@@ -104,7 +104,6 @@ public class MemoryManager {
 
     public Set<String> getUniqueProcesses() {
         Set<String> uniqueProcesses = new HashSet<>();
-
         for (int i = 0; i < physicalMemory.length; i++) {
             for (int j = 0; j < pageSize; j++) {
                 if (physicalMemory[i][j] != null) {
@@ -135,7 +134,7 @@ public class MemoryManager {
             }
         }
     }
-
+    
     public String printStatusMemoryAsString() {
         StringBuilder status = new StringBuilder();
 

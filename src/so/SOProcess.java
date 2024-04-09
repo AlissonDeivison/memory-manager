@@ -16,14 +16,13 @@ public class SOProcess {
 
     public SOProcess(int sizeInMemory) {
         countIndex++;
-
         this.id = "P" + countIndex;
         this.sizeInMemory = sizeInMemory;
-
+        
         Random rand = new Random();
         List<Priority> priorityList = Arrays.asList(Priority.BAIXA, Priority.MEDIA, Priority.ALTA, Priority.CRITICA);
         this.priority = priorityList.get(rand.nextInt(priorityList.size()));
-
+        
         List<Integer> timeList = Arrays.asList(100, 200, 300, 400, 500, 600, 700, 800, 900, 2000);
         this.timeToExecute = timeList.get(rand.nextInt(timeList.size()));
     }
@@ -52,15 +51,15 @@ public class SOProcess {
         return priority;
     }
 
-    // Função para fatiar o processo
     public List<String> getSubProcess() {
-        if (this.subProcess == null || this.subProcess.isEmpty()) {
-            this.subProcess = new LinkedList<>();
-            for (int i = 0; i < this.getSizeInMemory(); i++) {
-                this.subProcess.add(id + "[" + i + "]");
+        if (subProcess == null) {
+            subProcess = new LinkedList<>();
+            for (int i = 0; i < sizeInMemory; i++) {
+                this.subProcess.add(id+i);
             }
         }
-        return this.subProcess;
+        return subProcess;
     }
+
 
 }
