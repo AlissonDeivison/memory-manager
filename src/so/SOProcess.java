@@ -1,7 +1,7 @@
 package so;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -32,16 +32,8 @@ public class SOProcess {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public int getSizeInMemory() {
         return sizeInMemory;
-    }
-
-    public void setSizeInMemory(int sizeInMemory) {
-        this.sizeInMemory = sizeInMemory;
     }
 
     public int getTimeToExecute() {
@@ -54,13 +46,15 @@ public class SOProcess {
 
     public List<String> getSubProcess() {
         if (subProcess == null) {
-            subProcess = new LinkedList<>();
-            for (int i = 0; i < sizeInMemory; i++) {
-                this.subProcess.add(id+i);
-            }
+            initializeSubProcess();
         }
         return subProcess;
     }
 
-
+    private void initializeSubProcess() {
+        subProcess = new ArrayList<>(sizeInMemory);
+        for (int i = 0; i < sizeInMemory; i++) {
+            subProcess.add(this.id + i);
+        }
+    }
 }

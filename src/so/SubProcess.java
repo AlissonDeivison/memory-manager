@@ -4,15 +4,14 @@ public class SubProcess {
     private String id;
     private String processId;
     private int instructions;
-    public static int count;
-    
+    private static int nextId = 0; 
 
     public SubProcess(String processId, int instructions) {
         this.processId = processId;
-        this.id = processId + count;
+        this.id = processId + nextId;
         this.instructions = instructions;
         
-        count++;
+        nextId++;
     }
 
     public String getId() {
@@ -34,6 +33,4 @@ public class SubProcess {
     public String getProcessId() {
         return processId;
     }
-
-
 }

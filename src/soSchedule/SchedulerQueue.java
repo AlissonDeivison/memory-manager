@@ -10,8 +10,6 @@ import so.SubProcess;
 import so.SystemCallType;
 import so.SystemOperation;
 import soCpu.Core;
-import soCpu.CpuManager;
-
 
 public abstract class SchedulerQueue extends Scheduler{
 
