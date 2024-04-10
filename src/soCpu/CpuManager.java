@@ -8,7 +8,7 @@ import so.SubProcess;
 public class CpuManager {
     private Core[] cores;
     public static int NUM_OF_INSTRUCTIONS_PER_CLOCK = 7;
-    public static int CLOCK_TIME = 2000;
+    public static int CLOCK_TIME = 5000;
     public static int NUM_OF_CORES = 4;
 
     
@@ -22,6 +22,7 @@ public class CpuManager {
     
     public void registerProcess(int coreId, SubProcess p){
         this.cores[coreId].setSubProcess(p);
+        System.out.println("Processo " + p.getId() + " registrado no core " + coreId);
     }
 
     private void clock(){

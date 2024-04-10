@@ -10,6 +10,7 @@ import so.SubProcess;
 import so.SystemCallType;
 import so.SystemOperation;
 import soCpu.Core;
+import soCpu.CpuManager;
 
 
 public abstract class SchedulerQueue extends Scheduler{
@@ -19,6 +20,7 @@ public abstract class SchedulerQueue extends Scheduler{
     
     public SchedulerQueue(Comparator<SOProcess> comparator) {
         this.queue = new PriorityQueue<SOProcess>(comparator);
+        this.subProcess = new Hashtable<String, List<SubProcess>>();
     }
     
     
@@ -38,6 +40,7 @@ public abstract class SchedulerQueue extends Scheduler{
             if(core.getSubProcess() != null){
                 SubProcess sp = sps.get(0);
                 this.getCpu().registerProcess(core.getId(), sp);
+                System.out.println("Processo " + sp.getId() + " registrado no core " + core.getId());
             }
         }
     }

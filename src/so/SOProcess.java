@@ -25,6 +25,7 @@ public class SOProcess {
         
         List<Integer> timeList = Arrays.asList(100, 200, 300, 400, 500, 600, 700, 800, 900, 2000);
         this.timeToExecute = timeList.get(rand.nextInt(timeList.size()));
+
     }
 
     public String getId() {
