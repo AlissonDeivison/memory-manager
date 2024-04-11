@@ -1,11 +1,11 @@
 package so;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Set;
 
 public class Execute {
     private static Scanner scanner = new Scanner(System.in);
-
     public static void main(String[] args) {
         int option;
         while (true) {
@@ -81,6 +81,7 @@ public class Execute {
             int processSize = Integer.parseInt(scanner.nextLine());
             SOProcess process = SystemOperation.SystemCall(SystemCallType.CREATE, processSize);
             SystemOperation.SystemCall(SystemCallType.WRITE, process);
+
         } catch (NumberFormatException e) {
             System.out.println("Tamanho do processo inválido, digite um número válido.");
         } catch (Exception e) {
@@ -89,16 +90,17 @@ public class Execute {
     }
 
     private static void executeExistingProcesses() {
-        Set<String> processes = SystemOperation.getUniqueProcesses();
-        if (processes == null || processes.isEmpty()) {
+        ArrayList<SOProcess> listProcess = SystemOperation.getAllProcess();
+        if (listProcess == null || listProcess.isEmpty()) { 
             System.out.println("Não há processos na memória para executar.");
         } else {
-            for (String processId : processes) {
+            for (int i = 0; i < listProcess.size(); i++){
                 try {
-                    SOProcess p = SystemOperation.getProcess(processId);
-                    System.out.println("Executando processo " + processId + p.getSubProcess());
+                    SOProcess p = listProcess.get(i);
+                    System.out.println("Executando processo " + p.getId() + p.getSubProcess());
                     SystemOperation.executeProcesses(p);
-                    //System.out.println("Processo " + processId + " executado com sucesso!");
+                    System.out.println("Processo finalizado " + p.getId() + p.getSubProcess());
+
                     
                     // Adiciona uma pausa após a execução de cada processo
                     System.out.println("Pressione Enter para continuar...");

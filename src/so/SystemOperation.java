@@ -1,5 +1,6 @@
 package so;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -27,6 +28,7 @@ public class SystemOperation {
     public static List<SubProcess> SystemCall(SystemCallType type, SOProcess p) {
         if (type == SystemCallType.WRITE) {
             boolean writeSuccess = mm.write(p) != null;
+            mm.addProcess(p);
             if (writeSuccess) {
                 System.out.println("Processo criado com sucesso! ID: " + p.getId());
             }
@@ -67,7 +69,14 @@ public class SystemOperation {
 
     public static SOProcess getProcess(String p) {
         if (mm != null) {
-            return mm.getProcess(p);
+            return mm.getProcessFromList(p);
+        }
+        return null;
+    }
+
+    public static ArrayList<SOProcess> getAllProcess(){
+        if (mm != null) {
+            return mm.getListOfProcesses();
         }
         return null;
     }

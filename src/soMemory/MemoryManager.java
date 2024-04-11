@@ -1,5 +1,6 @@
 package soMemory;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.LinkedList;
@@ -13,6 +14,7 @@ public class MemoryManager {
     private SubProcess[][] physicalMemory;
     private Hashtable<String, FrameMemory> logicalMemory;
     private int pageSize;
+    private ArrayList<SOProcess> listOfProcesses;
 
     public static int NUMBER_OF_PROCESS_INSTRUCTIONS = 7;
 
@@ -22,6 +24,7 @@ public class MemoryManager {
         int pages = memorySize / pageSize;
         physicalMemory = new SubProcess[pages][pageSize];
         this.logicalMemory = new Hashtable<>();
+        this.listOfProcesses = new ArrayList<>();
     }
 
     // Retorna os quadros disponíveis para alocar o processo
@@ -165,5 +168,22 @@ public class MemoryManager {
             }
         }
         return sps;
+    }
+    //Adicionar processo a listOfProcesses
+    public void addProcess(SOProcess p) {
+        listOfProcesses.add(p); // Adiciona o processo ao ArrayList
+    }
+
+    public SOProcess getProcessFromList(String id) {
+        for (SOProcess process : listOfProcesses) {
+            if (process != null && process.getId().equals(id)) {
+                return process;
+            }
+        }
+        return null;
+    }
+    
+    public ArrayList<SOProcess> getListOfProcesses() {
+        return listOfProcesses;
     }
 }

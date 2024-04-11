@@ -35,10 +35,9 @@ public abstract class SchedulerQueue extends Scheduler{
         List<SubProcess> sps = this.subProcess.get(p.getId());
         Core [] cores = this.getCpu().getCores();
         for (Core core : cores) {
-            if(core.getSubProcess() != null){
-                SubProcess sp = sps.get(0);
+            if(core.getSubProcess() == null && !sps.isEmpty()){
+                SubProcess sp = sps.remove(0);
                 this.getCpu().registerProcess(core.getId(), sp);
-                System.out.println("Processo " + sp.getId() + " registrado no core " + core.getId());
             }
         }
     }
