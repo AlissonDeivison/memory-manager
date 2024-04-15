@@ -11,17 +11,17 @@ import so.SystemCallType;
 import so.SystemOperation;
 import soCpu.Core;
 
-public abstract class SchedulerQueue extends Scheduler{
+public abstract class SchedulerQueue extends Scheduler {
 
     private PriorityQueue<SOProcess> queue;
-    private Hashtable<String, List<SubProcess>> subProcess ;
-    
+    private Hashtable<String, List<SubProcess>> subProcess;
+    private boolean canRegisterNewSubprocess = true; // Variável para controlar o registro de novos subprocessos
+
     public SchedulerQueue(Comparator<SOProcess> comparator) {
-        this.queue = new PriorityQueue<SOProcess>(comparator);
-        this.subProcess = new Hashtable<String, List<SubProcess>>();
+        this.queue = new PriorityQueue<>(comparator);
+        this.subProcess = new Hashtable<>();
     }
-    
-    
+
     @Override
     public void execute(SOProcess p) {
         this.queue.add(p);
@@ -29,34 +29,51 @@ public abstract class SchedulerQueue extends Scheduler{
         this.subProcess.put(p.getId(), sps);
         registerProcess(); // Chama o método de registro após adicionar o processo à fila e obter os subprocessos
     }
-    
+
     public void registerProcess() {
-        // Remove um processo da fila para registro
+        if (!canRegisterNewSubprocess) return;
+    
         SOProcess p = this.queue.poll();
         if (p != null) {
-            // Obtém os subprocessos correspondentes ao processo
             List<SubProcess> sps = this.subProcess.get(p.getId());
             if (sps != null) {
-                // Obtém a lista de núcleos da CPU
                 Core[] cores = this.getCpu().getCores();
-                // Itera sobre os núcleos e tenta registrar o processo em um núcleo disponível
                 for (Core core : cores) {
-                    // Verifica se o núcleo não possui um subprocesso em execução e se há subprocessos a serem registrados
-                    if (core.getSubProcess() == null && !sps.isEmpty()) {
-                        // Remove o primeiro subprocesso da lista e registra no núcleo
-                        SubProcess sp = sps.remove(0);
-                        this.getCpu().registerProcess(core.getId(), sp);
-                    }
+                    if (sps.isEmpty()) break; // Se não houver mais subprocessos a serem registrados, saia do loop
+                    SubProcess sp = sps.remove(0);
+                    this.getCpu().registerProcess(core.getId(), sp);
+                }
+    
+                // Se ainda houver subprocessos na lista, permite registrar um novo subprocesso no próximo ciclo de clock
+                if (!sps.isEmpty()) {
+                    canRegisterNewSubprocess = true;
                 }
             }
+        } else {
+            // Se não houver mais processos para registrar, permite registrar novos subprocessos no próximo ciclo de clock
+            canRegisterNewSubprocess = true;
         }
     }
-    
 
     @Override
     public void finish(SOProcess p) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'finish'");
+        // Chama o método registerProcess para registrar novos subprocessos após a finalização de um processo
+        registerProcess();
+
+        // Verifica se ainda há subprocessos restantes para o processo principal
+        List<SubProcess> sps = this.subProcess.get(p.getId());
+        if (sps != null && !sps.isEmpty()) {
+            // Adiciona o processo principal de volta à fila para execução dos subprocessos restantes
+            execute(p);
+        }
+    }
+
+    public void clock() {
+        // Chama o método registerProcess para registrar novos subprocessos após cada ciclo de clock
+        registerProcess();
+        
+        // Após o término do ciclo de clock, permite o registro de um novo subprocesso
+        canRegisterNewSubprocess = true;
     }
 
     public PriorityQueue<SOProcess> getQueue() {

@@ -15,6 +15,7 @@ public class MemoryManager {
     private Hashtable<String, FrameMemory> logicalMemory;
     private int pageSize;
     private ArrayList<SOProcess> listOfProcesses;
+    private ArrayList<SubProcess> allSubProcesses;
 
     public static int NUMBER_OF_PROCESS_INSTRUCTIONS = 7;
 
@@ -25,6 +26,7 @@ public class MemoryManager {
         physicalMemory = new SubProcess[pages][pageSize];
         logicalMemory = new Hashtable<String, FrameMemory>();
         this.listOfProcesses = new ArrayList<>();
+        this.allSubProcesses = new ArrayList<SubProcess>();
     }
 
     // Retorna os quadros disponíveis para alocar o processo
@@ -61,6 +63,7 @@ public class MemoryManager {
                 for (int offset = 0; offset < pageSize; offset++) {
                     if (remainingSubProcesses > 0) {
                         SubProcess sp = new SubProcess(p.getId(), NUMBER_OF_PROCESS_INSTRUCTIONS);
+                        allSubProcesses.add(sp);
                         //Não está icrementando o offset
                         physicalMemory[frame.getPageNumber()][offset] = sp;
                         logicalMemory.put(sp.getId(), new FrameMemory(frame.getPageNumber(), offset));
@@ -167,10 +170,10 @@ public class MemoryManager {
         List<String> ids = p.getSubProcess();
         List<SubProcess> sps = new LinkedList<>();
     
-        for (String id : ids) {
-            FrameMemory frame = logicalMemory.get(id);
-            if (frame != null) {
-                sps.add(physicalMemory[frame.getPageNumber()][frame.getOffset()]);
+        for (int i = 0; i < allSubProcesses.size(); i++) {
+            SubProcess sp = allSubProcesses.get(i);
+            if (ids.contains(sp.getId())) {
+                sps.add(sp);
             }
         }
     
