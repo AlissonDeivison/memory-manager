@@ -99,11 +99,11 @@ public class Execute {
                     SOProcess p = listProcess.get(i);
                     System.out.println("Executando processo " + p.getId() + p.getSubProcess());
                     SystemOperation.executeProcesses(p);
-                    System.out.println("Processo finalizado " + p.getId() + p.getSubProcess());
+                    //System.out.println("Processo finalizado " + p.getId() + p.getSubProcess());
 
                     
                     // Adiciona uma pausa após a execução de cada processo
-                    System.out.println("Pressione Enter para continuar...");
+                    System.out.println("Iniciando a execução de processos, precione Enter após a finalização");
                     scanner.nextLine();
                 } catch (Exception e) {
                     System.out.println("Erro ao executar processo: " + e.getMessage());
