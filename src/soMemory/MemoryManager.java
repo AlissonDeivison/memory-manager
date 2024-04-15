@@ -23,7 +23,7 @@ public class MemoryManager {
         this.pageSize = pageSize;
         int pages = memorySize / pageSize;
         physicalMemory = new SubProcess[pages][pageSize];
-        this.logicalMemory = new Hashtable<>();
+        logicalMemory = new Hashtable<String, FrameMemory>();
         this.listOfProcesses = new ArrayList<>();
     }
 
@@ -54,19 +54,23 @@ public class MemoryManager {
     public SOProcess write(SOProcess p) {
         int requiredFrames = (int) Math.ceil((double) p.getSubProcess().size() / pageSize);
         List<FrameMemory> frames = getAvailableFrames(requiredFrames);
-
+    
         if (!frames.isEmpty()) {
-            int increment = 0;
+            int remainingSubProcesses = p.getSubProcess().size();
             for (FrameMemory frame : frames) {
                 for (int offset = 0; offset < pageSize; offset++) {
-                    if (increment < p.getSubProcess().size()) {
+                    if (remainingSubProcesses > 0) {
                         SubProcess sp = new SubProcess(p.getId(), NUMBER_OF_PROCESS_INSTRUCTIONS);
-                        physicalMemory[frame.getPageNumber()][frame.getOffset() + offset] = sp;
-                        logicalMemory.put(sp.getId(), frame);
-                        increment++;
+                        //Não está icrementando o offset
+                        physicalMemory[frame.getPageNumber()][offset] = sp;
+                        logicalMemory.put(sp.getId(), new FrameMemory(frame.getPageNumber(), offset));
+                        remainingSubProcesses--;
                     } else {
                         break;
                     }
+                }
+                if (remainingSubProcesses <= 0) {
+                    break;
                 }
             }
             printStatusMemory();
@@ -76,6 +80,7 @@ public class MemoryManager {
             return null;
         }
     }
+    
 
     // Imprime o status da memória
     public void printStatusMemory() {
@@ -161,15 +166,19 @@ public class MemoryManager {
     public List<SubProcess> read(SOProcess p) {
         List<String> ids = p.getSubProcess();
         List<SubProcess> sps = new LinkedList<>();
+    
         for (String id : ids) {
-            FrameMemory frame = this.logicalMemory.get(id);
+            FrameMemory frame = logicalMemory.get(id);
             if (frame != null) {
-                sps.add(this.physicalMemory[frame.getPageNumber()][frame.getOffset()]);
+                sps.add(physicalMemory[frame.getPageNumber()][frame.getOffset()]);
             }
         }
+    
         return sps;
     }
-    //Adicionar processo a listOfProcesses
+    
+
+    // Adicionar processo a listOfProcesses
     public void addProcess(SOProcess p) {
         listOfProcesses.add(p); // Adiciona o processo ao ArrayList
     }
@@ -182,7 +191,7 @@ public class MemoryManager {
         }
         return null;
     }
-    
+
     public ArrayList<SOProcess> getListOfProcesses() {
         return listOfProcesses;
     }
