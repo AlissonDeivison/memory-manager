@@ -3,6 +3,7 @@ package soCpu;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import so.SOProcessListener;
 import so.SubProcess;
 
 public class CpuManager {
@@ -10,11 +11,11 @@ public class CpuManager {
     public static int NUM_OF_INSTRUCTIONS_PER_CLOCK = 7;
     public static int CLOCK_TIME = 1000;
     public static int NUM_OF_CORES = 4;
+    public CpuManager(SOProcessListener listener) {
 
-    public CpuManager() {
         this.cores = new Core[NUM_OF_CORES];
         for (int i = 0; i < this.cores.length; i++) {
-            this.cores[i] = new Core(i, NUM_OF_INSTRUCTIONS_PER_CLOCK);
+            this.cores[i] = new Core(i, NUM_OF_INSTRUCTIONS_PER_CLOCK, listener);
         }
         this.clock();
     }

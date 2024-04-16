@@ -1,5 +1,6 @@
 package soCpu;
 
+import so.SOProcessListener;
 import so.SubProcess;
 
 public class Core implements Runnable {
@@ -10,9 +11,12 @@ public class Core implements Runnable {
 
     private int count;
 
-    public Core(int coreId, int numInstructions) {
+    private SOProcessListener listener;
+
+    public Core(int coreId, int numInstructions, SOProcessListener listener) {
         this.id = coreId;
         this.numOfInstructions = numInstructions;
+        this.listener = listener;
     }
 
     @Override
@@ -28,6 +32,7 @@ public class Core implements Runnable {
     private void finishExecution() {
         this.subProcess = null;
         this.count = 0;
+        this.listener.coreExecuted(this.getId());
     }
 
     public void setSubProcess(SubProcess p) {

@@ -2,13 +2,14 @@ package soSchedule;
 
 import soCpu.CpuManager;
 import so.SOProcess;
+import so.SOProcessListener;
 
-public abstract class Scheduler {
+public abstract class Scheduler implements SOProcessListener{
 
     private CpuManager cpu;
 
     public Scheduler() {
-        this.cpu = new CpuManager();
+        this.cpu = new CpuManager(this);
     }
 
     public CpuManager getCpu() {
