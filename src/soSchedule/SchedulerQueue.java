@@ -5,7 +5,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.PriorityQueue;
 
-import so.SOProcessListener;
 import so.SOProcess;
 import so.SubProcess;
 import so.SystemCallType;

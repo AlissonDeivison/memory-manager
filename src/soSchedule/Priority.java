@@ -10,9 +10,9 @@ public class Priority extends SchedulerQueue {
 
             @Override
             public int compare(SOProcess p1, SOProcess p2) {
-                return p1.getPriority().getPriorityNumber() >= p2.getPriority().getPriorityNumber() ? 1 : -1;
+                return p1.getPriority().getPriorityNumber() <= p2.getPriority().getPriorityNumber() ? 1 : -1;
             }
         });
     }
-
 }
+

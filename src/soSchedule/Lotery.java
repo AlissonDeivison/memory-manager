@@ -16,6 +16,12 @@ public class Lotery extends Scheduler{
         throw new UnsupportedOperationException("Unimplemented method 'finish'");
     }
 
+    @Override
+    public void coreExecuted(int coreId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'coreExecuted'");
+    }
+
    
 
 }
