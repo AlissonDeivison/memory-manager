@@ -186,7 +186,63 @@ public class MemoryManager {
         return null;
     }
 
-    public ArrayList<SOProcess> getListOfProcesses() {
-        return listOfProcesses;
+    public ArrayList<SOProcess> getListOfProcesses(int n) {
+        //SJF
+        ArrayList<SOProcess> orderedProcess = new ArrayList<SOProcess>();
+        if(n == 1){
+            for (int i = 0; i < listOfProcesses.size(); i++){
+                //Use Comparator para iterar na lista de processos e adicionar na lista orderedProcess baseado no tamanho do processo
+                if(orderedProcess.isEmpty()){
+                    orderedProcess.add(listOfProcesses.get(i)); 
+                }else{
+                    for (int j = 0; j < orderedProcess.size(); j++){
+                        if(listOfProcesses.get(i).getSizeInMemory() < orderedProcess.get(j).getSizeInMemory()){
+                            orderedProcess.add(j, listOfProcesses.get(i));
+                            break;
+                        }else if(j == orderedProcess.size() - 1){
+                            orderedProcess.add(listOfProcesses.get(i));
+                            break;
+                        }
+                    }
+                }
+            }
+        } else if (n == 2){
+            //Lógica para Prioridade
+            for (int i = 0; i < listOfProcesses.size(); i++){
+                //Use Comparator para iterar na lista de processos e adicionar na lista orderedProcess baseado na prioridade
+                if(orderedProcess.isEmpty()){
+                    orderedProcess.add(listOfProcesses.get(i));
+                }else{
+                    for (int j = 0; j < orderedProcess.size(); j++){
+                        if(listOfProcesses.get(i).getPriority().getPriorityNumber() < orderedProcess.get(j).getPriority().getPriorityNumber()){
+                            orderedProcess.add(i, listOfProcesses.get(j));
+                            break;
+                        }else if(j == orderedProcess.size() - 1){
+                            orderedProcess.add(listOfProcesses.get(i));
+                            break;
+                        }
+                    }
+                }
+                
+            }
+        } else if (n == 3 ){
+            //Lógica do FCFS
+            for (int i = 0; i < listOfProcesses.size(); i++){
+                orderedProcess.add(listOfProcesses.get(i));
+            }
+        } else if (n == 4) {
+            //Lógica do Loteria
+            for (int i = 0; i < listOfProcesses.size(); i++){
+                //Use Comparator para iterar na lista de processos e adicionar na lista orderedProcess aleatoriamente
+                if(orderedProcess.isEmpty()){
+                    orderedProcess.add(listOfProcesses.get(i));
+                }else{
+                    int random = (int) (Math.random() * orderedProcess.size());
+                    orderedProcess.add(random, listOfProcesses.get(i));
+                }
+            }
+        }
+        return orderedProcess;
+
     }
 }
