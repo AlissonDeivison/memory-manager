@@ -90,21 +90,40 @@ public class Execute {
     }
 
     private static void executeExistingProcesses() {
-        //1 - SJF 2 - Prioridade 3- FCFS 4 - Loteria
-        ArrayList<SOProcess> listProcess = SystemOperation.getAllProcess(4); //Mudar a forma como eu recebo os processo
-        if (listProcess == null || listProcess.isEmpty()) { 
+        int algorithmOption;
+        while (true) {
+            System.out.println("Escolha o algoritmo de escalonamento:");
+            System.out.println("1 - SJF");
+            System.out.println("2 - Prioridade");
+            System.out.println("3 - FCFS");
+            System.out.println("4 - Loteria");
+            System.out.print("Digite o número correspondente ao algoritmo desejado: ");
+            
+            try {
+                algorithmOption = Integer.parseInt(scanner.nextLine());
+                if (algorithmOption < 1 || algorithmOption > 4) {
+                    System.out.println("Opção inválida, digite novamente.");
+                } else {
+                    break;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Opção inválida, digite novamente.");
+            }
+        }
+    
+        ArrayList<SOProcess> listProcess = SystemOperation.getAllProcess(algorithmOption);
+        if (listProcess == null || listProcess.isEmpty()) {
             System.out.println("Não há processos na memória para executar.");
         } else {
-            for (int i = 0; i < listProcess.size(); i++){
+            for (int i = 0; i < listProcess.size(); i++) {
                 try {
                     SOProcess p = listProcess.get(i);
-                    System.out.println("Executando processo " + p.getId() + "Prioridade: " + p.getPriority());
+                    System.out.println("Executando processo " + p.getId() + " Prioridade: " + p.getPriority() + " Tamanho: " + p.getSizeInMemory());
                     SystemOperation.executeProcesses(p);
-                    //System.out.println("Processo finalizado " + p.getId() + p.getSubProcess());
-
-                    
+                    // System.out.println("Processo finalizado " + p.getId() + p.getSubProcess());
+    
                     // Adiciona uma pausa após a execução de cada processo
-                    System.out.println("Iniciando a execução de processos, precione Enter após a finalização");
+                    System.out.println("Iniciando a execução de processos, pressione Enter após a finalização");
                     scanner.nextLine();
                 } catch (Exception e) {
                     System.out.println("Erro ao executar processo: " + e.getMessage());
