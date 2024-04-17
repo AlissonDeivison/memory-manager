@@ -8,7 +8,7 @@ public class SubProcess {
 
     public SubProcess(String processId, int instructions) {
         this.processId = processId;
-        this.id = processId + nextId;
+        this.id = processId + "[" + nextId + "]";
         this.instructions = instructions;
         
         nextId++;

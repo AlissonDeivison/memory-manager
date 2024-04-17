@@ -97,7 +97,7 @@ public class Execute {
             for (int i = 0; i < listProcess.size(); i++){
                 try {
                     SOProcess p = listProcess.get(i);
-                    System.out.println("Executando processo " + p.getId() + p.getSubProcess());
+                    System.out.println("Executando processo " + p.getId());
                     SystemOperation.executeProcesses(p);
                     //System.out.println("Processo finalizado " + p.getId() + p.getSubProcess());
 

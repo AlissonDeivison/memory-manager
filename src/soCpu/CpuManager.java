@@ -22,7 +22,7 @@ public class CpuManager {
 
     public void registerProcess(int coreId, SubProcess p) {
         this.cores[coreId].setSubProcess(p);
-        System.out.println("Processo " + p.getId() + " registrado no core " + coreId);
+        //System.out.println("Processo " + p.getId() + " registrado no core " + coreId);
     }
 
     private void clock() {

@@ -1,10 +1,10 @@
 package soMemory;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import so.SOProcess;
@@ -12,7 +12,7 @@ import so.SubProcess;
 
 public class MemoryManager {
     private SubProcess[][] physicalMemory;
-    private Hashtable<String, FrameMemory> logicalMemory;
+    private Map<Character, List<SubProcess>> logicalMemory;
     private int pageSize;
     private ArrayList<SOProcess> listOfProcesses;
     private ArrayList<SubProcess> allSubProcesses;
@@ -24,9 +24,9 @@ public class MemoryManager {
         this.pageSize = pageSize;
         int pages = memorySize / pageSize;
         physicalMemory = new SubProcess[pages][pageSize];
-        logicalMemory = new Hashtable<String, FrameMemory>();
+        logicalMemory = new HashMap<>();
         this.listOfProcesses = new ArrayList<>();
-        this.allSubProcesses = new ArrayList<SubProcess>();
+        this.allSubProcesses = new ArrayList<>();
     }
 
     // Retorna os quadros disponíveis para alocar o processo
@@ -64,9 +64,9 @@ public class MemoryManager {
                     if (remainingSubProcesses > 0) {
                         SubProcess sp = new SubProcess(p.getId(), NUMBER_OF_PROCESS_INSTRUCTIONS);
                         allSubProcesses.add(sp);
-                        //Não está icrementando o offset
+                        // Não está incrementando o offset
                         physicalMemory[frame.getPageNumber()][offset] = sp;
-                        logicalMemory.put(sp.getId(), new FrameMemory(frame.getPageNumber(), offset));
+                        logicalMemory.computeIfAbsent(p.getId().charAt(1), k -> new LinkedList<>()).add(sp);
                         remainingSubProcesses--;
                     } else {
                         break;
@@ -167,17 +167,8 @@ public class MemoryManager {
 
     // Lê os subprocessos de um processo na memória
     public List<SubProcess> read(SOProcess p) {
-        List<String> ids = p.getSubProcess();
-        List<SubProcess> sps = new LinkedList<>();
-    
-        for (int i = 0; i < allSubProcesses.size(); i++) {
-            SubProcess sp = allSubProcesses.get(i);
-            if (ids.contains(sp.getId())) {
-                sps.add(sp);
-            }
-        }
-    
-        return sps;
+        char processId = p.getId().charAt(1);
+        return logicalMemory.getOrDefault(processId, new LinkedList<>());
     }
     
 
