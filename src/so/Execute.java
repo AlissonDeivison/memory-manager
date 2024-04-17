@@ -90,6 +90,7 @@ public class Execute {
     }
 
     private static void executeExistingProcesses() {
+        //1 - SJF 2 - Prioridade 3- FCFS 4 - Loteria
         ArrayList<SOProcess> listProcess = SystemOperation.getAllProcess(4); //Mudar a forma como eu recebo os processo
         if (listProcess == null || listProcess.isEmpty()) { 
             System.out.println("Não há processos na memória para executar.");
