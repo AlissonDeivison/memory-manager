@@ -90,14 +90,14 @@ public class Execute {
     }
 
     private static void executeExistingProcesses() {
-        ArrayList<SOProcess> listProcess = SystemOperation.getAllProcess();
+        ArrayList<SOProcess> listProcess = SystemOperation.getAllProcess(4); //Mudar a forma como eu recebo os processo
         if (listProcess == null || listProcess.isEmpty()) { 
             System.out.println("Não há processos na memória para executar.");
         } else {
             for (int i = 0; i < listProcess.size(); i++){
                 try {
                     SOProcess p = listProcess.get(i);
-                    System.out.println("Executando processo " + p.getId());
+                    System.out.println("Executando processo " + p.getId() + "Prioridade: " + p.getPriority());
                     SystemOperation.executeProcesses(p);
                     //System.out.println("Processo finalizado " + p.getId() + p.getSubProcess());
 

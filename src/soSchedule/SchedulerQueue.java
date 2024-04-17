@@ -31,6 +31,7 @@ public abstract class SchedulerQueue extends Scheduler {
                            // subprocessos
     }
 
+
     private void registerProcess() {
         for (Core core : this.getCpu().getCores()) {
             if (core.getSubProcess() == null) {

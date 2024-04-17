@@ -74,9 +74,10 @@ public class SystemOperation {
         return null;
     }
 
-    public static ArrayList<SOProcess> getAllProcess(){
+    public static ArrayList<SOProcess> getAllProcess(int n){
         if (mm != null) {
-            return mm.getListOfProcesses();
+            return mm.getListOfProcesses(n);
+            
         }
         return null;
     }
