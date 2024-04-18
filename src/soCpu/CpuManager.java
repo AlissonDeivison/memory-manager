@@ -9,7 +9,7 @@ import so.SubProcess;
 public class CpuManager {
     private Core[] cores;
     public static int NUM_OF_INSTRUCTIONS_PER_CLOCK = 7;
-    public static int CLOCK_TIME = 1000;
+    public static int CLOCK_TIME = 500;
     public static int NUM_OF_CORES = 4;
     public CpuManager(SOProcessListener listener) {
 

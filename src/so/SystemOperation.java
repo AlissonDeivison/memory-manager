@@ -12,7 +12,7 @@ public class SystemOperation {
     private static MemoryManager mm;
     private static Scheduler sc;
 
-    public static SOProcess SystemCall(SystemCallType type, int processSize, int priority) {
+    public static SOProcess SystemCall(SystemCallType type, int processSize, int priority, int timeToExecute) {
         if (type == SystemCallType.CREATE) {
             if (mm == null) {
                 mm = new MemoryManager(4, 256);
@@ -22,7 +22,7 @@ public class SystemOperation {
                 sc = new FCFS(); // Modifica a estratégia de escalonamento aqui
             }
         }
-        return new SOProcess(processSize, priority);
+        return new SOProcess(processSize, priority, timeToExecute);
     }
 
     public static List<SubProcess> SystemCall(SystemCallType type, SOProcess p) {
@@ -30,7 +30,9 @@ public class SystemOperation {
             boolean writeSuccess = mm.write(p) != null;
             mm.addProcess(p);
             if (writeSuccess) {
-                System.out.println("Processo criado com sucesso! ID: " + p.getId());
+                System.out.println("Processo criado com sucesso! ID: " + p.getId() + " Tamanho: " + p.getSizeInMemory() + " Prioridade: " + p.getPriority() + " Tempo de execução: " + p.getTimeToExecute());
+            } else {
+                mm.deleteProcess(p.getId());
             }
         } else if (type == SystemCallType.READ) {
             return mm.read(p);

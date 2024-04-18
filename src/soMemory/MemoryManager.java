@@ -109,6 +109,11 @@ public class MemoryManager {
                 }
             }
         }
+        for (int i = 0; i < listOfProcesses.size(); i++) {
+            if (listOfProcesses.get(i).getId().equals(processId)) {
+                listOfProcesses.remove(i);
+            }
+        }
     }
 
     // Obtém a lista de processos únicos na memória
@@ -122,18 +127,6 @@ public class MemoryManager {
             }
         }
         return uniqueProcesses;
-    }
-
-    // Obtém um processo com base no ID
-    public SOProcess getProcess(String id) {
-        for (int i = 0; i < physicalMemory.length; i++) {
-            for (int j = 0; j < pageSize; j++) {
-                if (physicalMemory[i][j] != null && physicalMemory[i][j].getId().startsWith(id)) {
-                    return new SOProcess(physicalMemory[i][j].getInstructions());
-                }
-            }
-        }
-        return null;
     }
 
     // Remove um processo da memória
@@ -191,12 +184,11 @@ public class MemoryManager {
         ArrayList<SOProcess> orderedProcess = new ArrayList<SOProcess>();
         if(n == 1){
             for (int i = 0; i < listOfProcesses.size(); i++){
-                //Use Comparator para iterar na lista de processos e adicionar na lista orderedProcess baseado no tamanho do processo
                 if(orderedProcess.isEmpty()){
                     orderedProcess.add(listOfProcesses.get(i)); 
                 }else{
                     for (int j = 0; j < orderedProcess.size(); j++){
-                        if(listOfProcesses.get(i).getSizeInMemory() < orderedProcess.get(j).getSizeInMemory()){
+                        if(listOfProcesses.get(i).getTimeToExecute() < orderedProcess.get(j).getTimeToExecute()){
                             orderedProcess.add(j, listOfProcesses.get(i));
                             break;
                         }else if(j == orderedProcess.size() - 1){
@@ -215,7 +207,7 @@ public class MemoryManager {
                 }else{
                     for (int j = 0; j < orderedProcess.size(); j++){
                         if(listOfProcesses.get(i).getPriority().getPriorityNumber() < orderedProcess.get(j).getPriority().getPriorityNumber()){
-                            orderedProcess.add(i, listOfProcesses.get(j));
+                            orderedProcess.add(j, listOfProcesses.get(i));
                             break;
                         }else if(j == orderedProcess.size() - 1){
                             orderedProcess.add(listOfProcesses.get(i));

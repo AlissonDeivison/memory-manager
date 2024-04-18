@@ -2,7 +2,10 @@ package so;
 
 public enum Priority {
 
-    BAIXA(3), MEDIA(2), ALTA(1), CRITICA(0);
+    CRITICA(0),
+    ALTA(1), 
+    MEDIA(2), 
+    BAIXA(3);
 
     private int priorityNumber;
 

@@ -6,6 +6,7 @@ import java.util.Set;
 
 public class Execute {
     private static Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
         int option;
         while (true) {
@@ -79,10 +80,11 @@ public class Execute {
         try {
             System.out.print("Digite o tamanho do processo que deseja criar: ");
             int processSize = Integer.parseInt(scanner.nextLine());
-            System.out.println("Prioridades disponíveis: 0 - Crítico, 1 - Alta, 2 - Média, 3 - Baixa");
-            System.out.print("Digite a prioridade do processo: ");
+            System.out.println("Digite a prioridade do processo:  [0] - Crítico, [1] - Alta, [2] - Média, [3] - Baixa");
             int priority = Integer.parseInt(scanner.nextLine());
-            SOProcess process = SystemOperation.SystemCall(SystemCallType.CREATE, processSize, priority);
+            System.out.println("Digite o tempo de execução do processo: ");
+            int timeToExecute = Integer.parseInt(scanner.nextLine());
+            SOProcess process = SystemOperation.SystemCall(SystemCallType.CREATE, processSize, priority, timeToExecute);
             SystemOperation.SystemCall(SystemCallType.WRITE, process);
 
         } catch (NumberFormatException e) {
@@ -101,7 +103,7 @@ public class Execute {
             System.out.println("3 - FCFS");
             System.out.println("4 - Loteria");
             System.out.print("Digite o número correspondente ao algoritmo desejado: ");
-            
+
             try {
                 algorithmOption = Integer.parseInt(scanner.nextLine());
                 if (algorithmOption < 1 || algorithmOption > 4) {
@@ -113,7 +115,7 @@ public class Execute {
                 System.out.println("Opção inválida, digite novamente.");
             }
         }
-    
+
         ArrayList<SOProcess> listProcess = SystemOperation.getAllProcess(algorithmOption);
         if (listProcess == null || listProcess.isEmpty()) {
             System.out.println("Não há processos na memória para executar.");
@@ -121,13 +123,16 @@ public class Execute {
             for (int i = 0; i < listProcess.size(); i++) {
                 try {
                     SOProcess p = listProcess.get(i);
-                    System.out.println("Executando processo " + p.getId() + " Prioridade: " + p.getPriority() + " Tamanho: " + p.getSizeInMemory());
-                    SystemOperation.executeProcesses(p);
-                    // System.out.println("Processo finalizado " + p.getId() + p.getSubProcess());
-    
+                    if (p.getSubProcess().isEmpty()) {
+                        break;
+                    } else {
+                        System.out.println("Executando processo " + p.getId());
+                        SystemOperation.executeProcesses(p);
+                        System.out.println("Iniciando a execução de processos, pressione Enter após a finalização");
+                        scanner.nextLine();
+                    }
+
                     // Adiciona uma pausa após a execução de cada processo
-                    System.out.println("Iniciando a execução de processos, pressione Enter após a finalização");
-                    scanner.nextLine();
                 } catch (Exception e) {
                     System.out.println("Erro ao executar processo: " + e.getMessage());
                 }
