@@ -19,11 +19,9 @@ public class SOProcess {
         this.id = "P" + countIndex;
         this.sizeInMemory = sizeInMemory;
 
-        //Random rand = new Random();
         List<Priority> priorityList = Arrays.asList(Priority.CRITICA, Priority.ALTA, Priority.MEDIA, Priority.BAIXA);
         this.priority = priorityList.get(priority);
 
-        //List<Integer> timeList = Arrays.asList(100, 200, 300, 400, 500, 600, 700, 800, 900, 2000);
         this.timeToExecute = timeToExecute;
 
     }
@@ -56,5 +54,11 @@ public class SOProcess {
         for (int i = 0; i < sizeInMemory; i++) {
             subProcess.add(this.id + i);
         }
+    }
+    public static int getCountIndex() {
+        return countIndex;
+    }
+    public static void setCountIndex(int countIndex) {
+        SOProcess.countIndex = countIndex;
     }
 }

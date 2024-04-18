@@ -64,7 +64,6 @@ public class MemoryManager {
                     if (remainingSubProcesses > 0) {
                         SubProcess sp = new SubProcess(p.getId(), NUMBER_OF_PROCESS_INSTRUCTIONS);
                         allSubProcesses.add(sp);
-                        // Não está incrementando o offset
                         physicalMemory[frame.getPageNumber()][offset] = sp;
                         logicalMemory.computeIfAbsent(p.getId().charAt(1), k -> new LinkedList<>()).add(sp);
                         remainingSubProcesses--;
@@ -79,7 +78,7 @@ public class MemoryManager {
             printStatusMemory();
             return p;
         } else {
-            System.out.println("Não há espaço suficiente na memória para o processo.");
+            System.out.println("Não há espaço suficiente na memória para o processo. [Page Fault]");
             return null;
         }
     }
@@ -112,6 +111,8 @@ public class MemoryManager {
         for (int i = 0; i < listOfProcesses.size(); i++) {
             if (listOfProcesses.get(i).getId().equals(processId)) {
                 listOfProcesses.remove(i);
+                int n = SOProcess.getCountIndex();
+                SOProcess.setCountIndex(n - 1);
             }
         }
     }
