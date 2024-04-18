@@ -14,15 +14,15 @@ public class SOProcess {
 
     private static int countIndex = 0;
 
-    public SOProcess(int sizeInMemory) {
+    public SOProcess(int sizeInMemory, int priority) {
         countIndex++;
         this.id = "P" + countIndex;
         this.sizeInMemory = sizeInMemory;
-        
+
         Random rand = new Random();
-        List<Priority> priorityList = Arrays.asList(Priority.BAIXA, Priority.MEDIA, Priority.ALTA, Priority.CRITICA);
-        this.priority = priorityList.get(rand.nextInt(priorityList.size()));
-        
+        List<Priority> priorityList = Arrays.asList(Priority.CRITICA, Priority.ALTA, Priority.MEDIA, Priority.BAIXA);
+        this.priority = priorityList.get(priority);
+
         List<Integer> timeList = Arrays.asList(100, 200, 300, 400, 500, 600, 700, 800, 900, 2000);
         this.timeToExecute = timeList.get(rand.nextInt(timeList.size()));
 

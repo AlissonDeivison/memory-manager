@@ -12,7 +12,7 @@ public class SystemOperation {
     private static MemoryManager mm;
     private static Scheduler sc;
 
-    public static SOProcess SystemCall(SystemCallType type, int processSize) {
+    public static SOProcess SystemCall(SystemCallType type, int processSize, int priority) {
         if (type == SystemCallType.CREATE) {
             if (mm == null) {
                 mm = new MemoryManager(4, 256);
@@ -22,7 +22,7 @@ public class SystemOperation {
                 sc = new FCFS(); // Modifica a estratégia de escalonamento aqui
             }
         }
-        return new SOProcess(processSize);
+        return new SOProcess(processSize, priority);
     }
 
     public static List<SubProcess> SystemCall(SystemCallType type, SOProcess p) {

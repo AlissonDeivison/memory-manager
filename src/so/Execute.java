@@ -79,7 +79,10 @@ public class Execute {
         try {
             System.out.print("Digite o tamanho do processo que deseja criar: ");
             int processSize = Integer.parseInt(scanner.nextLine());
-            SOProcess process = SystemOperation.SystemCall(SystemCallType.CREATE, processSize);
+            System.out.println("Prioridades disponíveis: 0 - Crítico, 1 - Alta, 2 - Média, 3 - Baixa");
+            System.out.print("Digite a prioridade do processo: ");
+            int priority = Integer.parseInt(scanner.nextLine());
+            SOProcess process = SystemOperation.SystemCall(SystemCallType.CREATE, processSize, priority);
             SystemOperation.SystemCall(SystemCallType.WRITE, process);
 
         } catch (NumberFormatException e) {
