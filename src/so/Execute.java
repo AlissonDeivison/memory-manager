@@ -117,6 +117,12 @@ public class Execute {
         }
 
         ArrayList<SOProcess> listProcess = SystemOperation.getAllProcess(algorithmOption);
+        ArrayList<String> orderedProcess = new ArrayList<String>();
+        for(int i = 0; i < listProcess.size(); i++){
+            orderedProcess.add(listProcess.get(i).getId());
+        }
+        System.out.println("Fila de processos:" + orderedProcess);
+        
         if (listProcess == null || listProcess.isEmpty()) {
             System.out.println("Não há processos na memória para executar.");
         } else {
